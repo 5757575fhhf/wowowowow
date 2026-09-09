@@ -1,39 +1,28 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#0b0f14">
-<title>Road to F1 — Career Simulator V3.3</title><link rel="stylesheet" href="styles.css">
-</head>
-<body>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Road to F1 Career Simulator V4</title><link rel="stylesheet" href="styles.css"></head><body>
 <main class="shell">
-<header class="topbar"><div><p class="eyebrow">ROAD TO FORMULA 1 • V3</p><h1>Driver Career Simulator</h1><p class="sub">Train. Qualify. Race lap-by-lap. Build your team, manage strategy, win contracts and reach Formula 1.</p></div><div class="actions"><button id="saveBtn">Save</button><button id="newBtn" class="danger">New Career</button></div></header>
-<nav class="tabs" aria-label="Game sections">
-<button class="tab active" data-tab="weekend">Weekend</button><button class="tab" data-tab="standings">Standings</button><button class="tab" data-tab="career">Career</button><button class="tab" data-tab="team">Team</button><button class="tab" data-tab="history">Records</button>
-</nav>
-<section class="hud">
-<div class="card"><span>Driver</span><strong id="hudDriver">—</strong></div><div class="card"><span>Series</span><strong id="hudSeries">—</strong></div><div class="card"><span>Season</span><strong id="hudSeason">1</strong></div><div class="card"><span>Round</span><strong id="hudRound">1</strong></div><div class="card"><span>Points</span><strong id="hudPoints">0</strong></div><div class="card"><span>Reputation</span><strong id="hudRep">15</strong></div><div class="card"><span>Cash</span><strong id="hudCash">$25k</strong></div>
-</section>
+<header class="topbar"><div><p class="eyebrow">ROAD TO F1 • V4.0</p><h1>Driver Career Simulator</h1><p class="sub">Build a career from karting to Formula 1.</p></div><div class="actions"><button id="saveBtn">Save</button><button id="newBtn" class="danger">New career</button></div></header>
+<nav class="tabs" aria-label="Game sections"><button class="tab active" data-tab="weekend">Weekend</button><button class="tab" data-tab="standings">Standings</button><button class="tab" data-tab="career">Career</button><button class="tab" data-tab="team">Team & Market</button><button class="tab" data-tab="history">History</button></nav>
+<section class="hud"><div class="card"><span>Driver</span><strong id="hudDriver">—</strong></div><div class="card"><span>Series</span><strong id="hudSeries">—</strong></div><div class="card"><span>Season</span><strong id="hudSeason">1</strong></div><div class="card"><span>Round</span><strong id="hudRound">1</strong></div><div class="card"><span>Points</span><strong id="hudPoints">0</strong></div><div class="card"><span>Reputation</span><strong id="hudRep">15</strong></div><div class="card"><span>Cash</span><strong id="hudCash">$30k</strong></div><div class="card"><span>Super Licence</span><strong id="hudSL">0/40</strong></div></section>
+
 <section id="weekend" class="panel tab-panel active">
 <div class="weekend-head"><div><p class="eyebrow">RACE WEEKEND</p><h2 id="trackTitle">—</h2><p id="trackMeta" class="muted"></p></div><div class="weatherBox"><strong id="weatherLabel">☀️ Dry</strong><span id="weatherForecast">Stable</span></div></div>
 <div id="phaseStrip" class="phase-strip"></div><div id="notice" class="notice">Prepare for the weekend.</div>
-<div class="grid2">
-<div>
+<div class="grid2"><div>
 <section class="subpanel"><div class="sectionHead"><div><p class="eyebrow">PRACTICE</p><h3>Training & setup</h3></div><span id="practiceLeft" class="pill"></span></div><div id="trainingGrid" class="training-grid"></div></section>
-<section class="subpanel"><div class="sectionHead"><div><p class="eyebrow">QUALIFYING</p><h3 id="qualTitle">Qualifying</h3></div><span id="qualBadge" class="pill">Not run</span></div><p class="muted">F1 uses Q1 → Q2 → Q3. Lower series use a single qualifying session.</p><button id="qualBtn" class="primary wide">Run qualifying session</button><div id="qualResults" class="tablebox muted">No qualifying result yet.</div></section>
-<section class="subpanel"><div class="sectionHead"><div><p class="eyebrow">RACE</p><h3>Strategy</h3></div><span id="gridBadge" class="pill">No grid</span></div>
+<section class="subpanel"><div class="sectionHead"><div><p class="eyebrow">QUALIFYING LIVE TIMING</p><h3 id="qualTitle">Qualifying</h3></div><span id="qualBadge" class="pill">Not run</span></div><p class="muted">Timing includes sector splits, best lap, gap to pole and interval. F1 uses Q1 → Q2 → Q3.</p><button id="qualBtn" class="primary wide">Run qualifying session</button><div id="qualResults" class="tablebox muted">No qualifying result yet.</div></section>
+<section class="subpanel"><div class="sectionHead"><div><p class="eyebrow">RACE STRATEGY</p><h3>Starting plan</h3></div><span id="gridBadge" class="pill">No grid</span></div>
 <div class="strategy-grid"><label>Start tyre<select id="startTyre"><option>Soft</option><option selected>Medium</option><option>Hard</option><option>Intermediate</option></select></label><label>Risk<select id="risk"><option>Low</option><option selected>Medium</option><option>High</option></select></label><label>ERS<select id="ers"><option>Save</option><option selected>Balanced</option><option>Attack</option></select></label><label>Fuel<select id="fuel"><option>Conserve</option><option selected>Balanced</option><option>Push</option></select></label></div>
-<button id="raceBtn" class="primary wide" disabled>Start race</button></section>
-</div>
-<div>
+<div id="strategyAdvice" class="strategy-advice muted">Qualify to receive tyre-life and pit-window predictions.</div><button id="raceBtn" class="primary wide" disabled>Start race</button></section>
+</div><div>
 <section class="subpanel"><div class="sectionHead"><div><p class="eyebrow">LIVE TIMING</p><h3 id="raceStatus">Race not started</h3></div><span id="lapBadge" class="pill">Lap —</span></div><div class="race-controls"><button id="lapBtn" disabled>Advance 1 lap</button><button id="fiveBtn" disabled>Advance 5 laps</button><button id="autoBtn" disabled>Auto to next event</button></div><div id="radioBox" class="radio hidden"></div><div id="timing" class="tablebox muted">Start the race to see live timing.</div></section>
+<section class="subpanel"><div class="sectionHead"><div><p class="eyebrow">RACE INTELLIGENCE</p><h3>Fastest lap & pit history</h3></div></div><div id="raceIntel" class="intel muted">No race data yet.</div></section>
 <section class="subpanel"><div class="sectionHead"><div><p class="eyebrow">RACE FEED</p><h3>Team radio & incidents</h3></div></div><div id="feed" class="feed"><div class="feeditem muted">Weekend ready.</div></div></section>
-</div></div>
-</section>
+</div></div></section>
+
 <section id="standings" class="panel tab-panel"><div class="grid2"><section class="subpanel"><h2>Championship standings</h2><div id="standingsTable" class="tablebox"></div></section><section class="subpanel"><h2>Season results</h2><div id="seasonResults" class="tablebox"></div></section></div></section>
-<section id="career" class="panel tab-panel"><div class="grid2"><section class="subpanel"><h2>Driver development</h2><div id="driverStats"></div></section><section class="subpanel"><h2>Career path</h2><div id="ladder"></div><h3>Academy</h3><div id="academyBox"></div><h3>Rival</h3><div id="rivalBox"></div></section></div></section>
-<section id="team" class="panel tab-panel"><div class="grid2"><section class="subpanel"><h2 id="teamName">Team</h2><div id="teamInfo"></div><div class="upgrade-grid"><button data-up="aero">Aero upgrade</button><button data-up="engine">Power upgrade</button><button data-up="reliability">Reliability</button><button data-up="pit">Pit crew</button></div></section><section class="subpanel"><h2>Contracts & sponsors</h2><div id="contracts"></div><div id="sponsorBox"></div></section></div></section>
-<section id="history" class="panel tab-panel"><div class="grid2"><section class="subpanel"><h2>Career statistics</h2><div id="careerStats"></div></section><section class="subpanel"><h2>Career history</h2><div id="historyList" class="history"></div></section></div></section>
+<section id="career" class="panel tab-panel"><div class="grid2"><section class="subpanel"><h2>Driver development</h2><div id="driverStats"></div><h3>Super Licence</h3><div id="superLicenceBox"></div></section><section class="subpanel"><h2>Career path</h2><div id="ladder"></div><h3>Academy</h3><div id="academyBox"></div><h3>Teammate comparison</h3><div id="teammateBox"></div><h3>Rival</h3><div id="rivalBox"></div></section></div></section>
+<section id="team" class="panel tab-panel"><div class="grid2"><section class="subpanel"><h2 id="teamName">Team</h2><div id="teamInfo"></div><div class="upgrade-grid"><button data-up="aero">Aero upgrade</button><button data-up="engine">Power upgrade</button><button data-up="reliability">Reliability</button><button data-up="pit">Pit crew</button></div><h3>Driver academy</h3><div id="academyOffers"></div></section><section class="subpanel"><h2>Contracts, sponsors & driver market</h2><div id="contracts"></div><div id="sponsorBox"></div><h3>AI driver market</h3><div id="marketBox"></div></section></div></section>
+<section id="history" class="panel tab-panel"><div class="grid2"><section class="subpanel"><h2>Career statistics</h2><div id="careerStats"></div><h3>Latest race analysis</h3><div id="raceAnalysis" class="analysisBox muted">Complete a race to see strategy analysis.</div></section><section class="subpanel"><h2>Career history</h2><div id="historyList" class="history"></div></section></div></section>
 </main>
 <dialog id="newDialog"><form method="dialog" id="newForm"><h2>Create your driver</h2><label>Driver name<input id="driverName" value="Alex Combes" maxlength="30"></label><label>Nationality<select id="nationality"><option>Australia</option><option>United Kingdom</option><option>Italy</option><option>France</option><option>Germany</option><option>Japan</option><option>United States</option><option>Brazil</option></select></label><label>Archetype<select id="archetype"><option value="balanced">Balanced</option><option value="qualifier">Qualifying specialist</option><option value="racer">Racecraft specialist</option><option value="rain">Wet-weather specialist</option><option value="steady">Consistent & reliable</option></select></label><button class="primary wide" value="default">Start career</button></form></dialog>
-<script src="game.js"></script>
-</body></html>
+<script src="game.js"></script></body></html>

@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0f14" />
+  <title>Road to F1 — Career Simulator V2</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div>
+        <p class="eyebrow">ROAD TO FORMULA 1 • V2</p>
+        <h1>Driver Career Simulator</h1>
+        <p class="sub">Build a driver, survive race weekends, negotiate contracts and climb from karting to Formula 1.</p>
+      </div>
+      <div class="top-actions">
+        <button id="saveBtn">Save</button>
+        <button id="newCareerBtn" class="danger">New Career</button>
+      </div>
+    </header>
+
+    <nav class="tabs" aria-label="Game sections">
+      <button class="tab active" data-tab="weekend">Race Weekend</button>
+      <button class="tab" data-tab="career">Career</button>
+      <button class="tab" data-tab="standings">Standings</button>
+      <button class="tab" data-tab="team">Team & Contracts</button>
+      <button class="tab" data-tab="history">History</button>
+    </nav>
+
+    <section class="grid stats-grid">
+      <article class="card"><span>Driver</span><strong id="driverNameTop">—</strong></article>
+      <article class="card"><span>Series</span><strong id="seriesLabel">Karting</strong></article>
+      <article class="card"><span>Season</span><strong id="seasonNum">1</strong></article>
+      <article class="card"><span>Round</span><strong id="roundNum">1/8</strong></article>
+      <article class="card"><span>Points</span><strong id="points">0</strong></article>
+      <article class="card"><span>Reputation</span><strong id="reputation">15</strong></article>
+      <article class="card"><span>Cash</span><strong id="money">$25k</strong></article>
+      <article class="card"><span>Energy</span><strong id="energy">100%</strong></article>
+    </section>
+
+    <section id="weekend" class="tab-panel active">
+      <div class="layout">
+        <div class="main-col">
+          <article class="panel hero-panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">RACE WEEKEND</p>
+                <h2 id="trackName">Melbourne Kart Circuit</h2>
+                <p id="weekendMeta" class="muted"></p>
+              </div>
+              <div class="weather" id="weather">☀️ Dry</div>
+            </div>
+            <div id="weekendStep" class="stepper"></div>
+            <div id="weekendStatus" class="notice">Choose your preparation, then qualify.</div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head"><div><p class="eyebrow">PREPARATION</p><h2>Training & recovery</h2></div><span id="trainingSessions" class="pill"></span></div>
+            <div id="trainingGrid" class="training-grid"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head"><div><p class="eyebrow">QUALIFYING</p><h2>One-lap pace</h2></div><span id="qualifyingBadge" class="pill">Not run</span></div>
+            <p class="muted">Qualifying rewards raw pace, consistency, car performance and track affinity. Wet sessions place much more weight on wet-weather skill.</p>
+            <button id="qualifyBtn" class="primary big">Run qualifying</button>
+            <div id="qualifyingResults" class="results-table empty-state">Qualifying results will appear here.</div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head"><div><p class="eyebrow">RACE STRATEGY</p><h2>Choose your approach</h2></div><span id="gridBadge" class="pill">No grid position</span></div>
+            <div class="strategy-grid">
+              <label><span>Start approach</span><select id="startStrategy"><option value="safe">Safe</option><option value="balanced" selected>Balanced</option><option value="aggressive">Aggressive</option></select></label>
+              <label><span>Tyre strategy</span><select id="tyreStrategy"><option value="conservative">Conservative</option><option value="balanced" selected>Balanced</option><option value="attack">Attack</option></select></label>
+              <label><span>Risk level</span><select id="riskStrategy"><option value="low">Low</option><option value="medium" selected>Medium</option><option value="high">High</option></select></label>
+            </div>
+            <button id="raceBtn" class="primary big" disabled>Start race</button>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head"><div><p class="eyebrow">LIVE TIMING</p><h2>Race feed</h2></div><span id="resultBadge" class="pill">Awaiting weekend</span></div>
+            <div id="raceFeed" class="race-feed"><div class="feed-item">Your career is ready.</div></div>
+            <div id="raceClassification" class="results-table"></div>
+          </article>
+        </div>
+
+        <aside class="side-col">
+          <article class="panel sticky-card">
+            <div class="panel-head"><div><p class="eyebrow">DRIVER</p><h2 id="driverName">Driver</h2></div><span id="overallRating" class="rating">50</span></div>
+            <div id="stats"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><p class="eyebrow">TEAM</p><h2 id="teamName">Team</h2></div><span id="carStars">★★☆☆☆</span></div>
+            <div class="team-stat"><span>Car performance</span><b id="carRating">50</b></div><div class="bar"><i id="carBar"></i></div>
+            <div class="team-stat"><span>Reliability</span><b id="reliabilityRating">70</b></div><div class="bar"><i id="reliabilityBar"></i></div>
+            <div class="team-stat"><span>Team morale</span><b id="moraleRating">70</b></div><div class="bar"><i id="moraleBar"></i></div>
+          </article>
+          <article class="panel"><p class="eyebrow">SEASON TARGET</p><h2 id="seasonTarget">Finish top 10</h2><p id="targetProgress" class="muted"></p></article>
+        </aside>
+      </div>
+    </section>
+
+    <section id="career" class="tab-panel">
+      <div class="layout">
+        <div class="main-col">
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">DEVELOPMENT</p><h2>Driver training</h2></div></div><p class="muted">Attributes improve slowly over a career. Focused training produces faster gains but costs cash and energy.</p><div id="careerStats"></div></article>
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">CAREER LADDER</p><h2>Road to Formula 1</h2></div></div><div id="ladder"></div></article>
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">ACHIEVEMENTS</p><h2>Milestones</h2></div></div><div id="achievements" class="achievement-grid"></div></article>
+        </div>
+        <aside class="side-col">
+          <article class="panel"><p class="eyebrow">PROFILE</p><h2 id="profileName">Driver</h2><div id="profileDetails" class="detail-list"></div></article>
+          <article class="panel"><p class="eyebrow">CAREER STATS</p><div id="careerTotals" class="detail-list"></div></article>
+        </aside>
+      </div>
+    </section>
+
+    <section id="standings" class="tab-panel">
+      <div class="layout">
+        <div class="main-col"><article class="panel"><div class="panel-head"><div><p class="eyebrow">CHAMPIONSHIP</p><h2>Driver standings</h2></div></div><div id="standingsTable" class="results-table"></div></article></div>
+        <aside class="side-col"><article class="panel"><p class="eyebrow">YOUR SEASON</p><div id="seasonSummary" class="detail-list"></div></article><article class="panel"><p class="eyebrow">RECENT RESULTS</p><div id="recentResults"></div></article></aside>
+      </div>
+    </section>
+
+    <section id="team" class="tab-panel">
+      <div class="layout">
+        <div class="main-col">
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">CONTRACT</p><h2 id="contractTeam">Current team</h2></div><span id="contractSalary" class="pill"></span></div><div id="contractDetails" class="detail-list"></div></article>
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">OFFERS</p><h2>Contract market</h2></div></div><div id="offers"></div></article>
+          <article class="panel"><div class="panel-head"><div><p class="eyebrow">CAR DEVELOPMENT</p><h2>Invest in the team</h2></div></div><div id="upgrades" class="upgrade-grid"></div></article>
+        </div>
+        <aside class="side-col"><article class="panel"><p class="eyebrow">SPONSOR</p><h2 id="sponsorName">No sponsor</h2><div id="sponsorDetails" class="detail-list"></div><button id="sponsorBtn">Find sponsor</button></article><article class="panel"><p class="eyebrow">TEAM STATUS</p><div id="teamDetails" class="detail-list"></div></article></aside>
+      </div>
+    </section>
+
+    <section id="history" class="tab-panel">
+      <article class="panel"><div class="panel-head"><div><p class="eyebrow">CAREER ARCHIVE</p><h2>Results & milestones</h2></div></div><div id="historyList"></div></article>
+    </section>
+  </main>
+
+  <dialog id="careerDialog">
+    <form id="careerForm" method="dialog" class="dialog-card">
+      <p class="eyebrow">NEW CAREER</p><h2>Create your driver</h2>
+      <label>Driver name<input id="newDriverName" maxlength="28" value="Alex Combes" required /></label>
+      <label>Nationality<select id="nationality"><option>Australia</option><option>United Kingdom</option><option>Italy</option><option>France</option><option>Germany</option><option>Netherlands</option><option>Spain</option><option>New Zealand</option><option>Japan</option><option>United States</option><option>Brazil</option></select></label>
+      <label>Driver archetype<select id="archetype"><option value="balanced">Balanced prospect</option><option value="qualifier">Qualifying specialist</option><option value="racer">Racecraft specialist</option><option value="rain">Wet-weather specialist</option><option value="steady">Consistent finisher</option></select></label>
+      <div class="dialog-actions"><button type="submit" class="primary">Start career</button></div>
+    </form>
+  </dialog>
+
+  <script src="game.js"></script>
+</body>
+</html>

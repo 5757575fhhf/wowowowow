@@ -46,3 +46,16 @@
 .miniCar.rival{width:18px;height:18px;z-index:5}.miniCar.rival i{border:3px solid #ff2d55;box-shadow:0 0 12px #ff2d55}
 .miniCar b{position:absolute;left:50%;top:-16px;transform:translateX(-50%);font-size:9px;line-height:1;padding:2px 4px;border-radius:5px;background:#0b0d12;color:white;white-space:nowrap}
 .miniCar.rival b{background:#ff2d55}.miniLegend{position:absolute;bottom:8px;left:10px;right:10px;display:flex;gap:15px;font-size:11px;opacity:.85}
+
+.raceRecovery{margin-top:10px;padding:10px;border:1px dashed rgba(255,255,255,.25);border-radius:10px;display:grid;gap:6px}
+.raceRecovery small{display:block;opacity:.8;overflow-wrap:anywhere}
+#debugError{color:#ff8a8a}
+
+.manualPit{display:grid;grid-template-columns:minmax(0,1fr) minmax(130px,.55fr) auto;gap:10px;align-items:end;margin:10px 0;padding:10px;border:1px solid rgba(255,255,255,.13);border-radius:10px}
+.manualPit small{display:block;opacity:.72;margin-top:3px}.manualPit label{font-size:.82rem}.manualPit select{width:100%;margin-top:4px}
+@media(max-width:650px){.manualPit{grid-template-columns:1fr}.manualPit button{width:100%}}
+
+.scoutCard small{display:block}.negotiationCard{margin:10px 0;padding:14px;border:1px solid rgba(255,255,255,.16);border-radius:12px}
+.negTerms{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px;margin:12px 0}.negTerms span{padding:8px;border:1px solid rgba(255,255,255,.1);border-radius:8px}.negTerms b{display:block;margin-top:3px}.negActions{display:flex;gap:8px;flex-wrap:wrap}
+
+.preseasonHead{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:10px}.preseasonHead small,.preseasonDone small,.testReport small{display:block;opacity:.72;margin-top:4px}.preseasonActions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.testReport,.preseasonDone{display:grid;gap:5px;margin-top:8px}.preseasonHead span{white-space:nowrap}@media(max-width:650px){.preseasonHead{display:grid}.preseasonHead span{white-space:normal}.preseasonActions button{width:100%}}

@@ -23,3 +23,10 @@
 .fuelLoadBox label{display:flex;justify-content:space-between;gap:12px}
 .fuelLoadBox input[type=range]{width:100%;margin:10px 0}
 .fuelLoadBox small{display:block;opacity:.75}
+
+.liveryBuilder{margin:14px 0 18px}.teamCar{height:100px;border-radius:18px;background:linear-gradient(135deg,var(--car-a,#d7263d) 0 58%,var(--car-b,#171717) 58%);position:relative;overflow:hidden;margin:10px 0;border:1px solid rgba(255,255,255,.12)}
+.teamCar:before{content:"";position:absolute;width:64%;height:34px;left:18%;top:35px;background:var(--car-a,#d7263d);clip-path:polygon(0 40%,14% 15%,64% 0,100% 42%,91% 72%,20% 100%);filter:brightness(1.1)}
+.teamCar:after{content:"";position:absolute;width:42%;height:8px;left:29%;top:49px;background:var(--car-b,#171717);transform:skewX(-25deg)}
+.scoutCard{display:grid;grid-template-columns:1fr auto;gap:8px 14px;padding:12px;margin:8px 0;border:1px solid rgba(255,255,255,.1);border-radius:12px}.scoutCard small{display:block;opacity:.65;margin-top:3px}.scoutCard .interest{text-align:right}.scoutCard .interest span{display:block;font-size:12px;opacity:.7}.scoutCard.signed{outline:2px solid rgba(255,255,255,.3)}.scoutCard button{grid-column:1/-1}
+
+.academyPath,.poach{padding:13px;margin:10px 0;border:1px solid rgba(255,255,255,.12);border-radius:12px}.academyPath span,.poach span{display:block;opacity:.7;margin:4px 0}.standingBar{height:8px;background:rgba(255,255,255,.1);border-radius:9px;overflow:hidden;margin:10px 0}.standingBar i{display:block;height:100%;background:currentColor}.poach button{margin:8px 6px 0 0}

@@ -28,12 +28,12 @@ const $=id=>document.getElementById(id),clamp=(v,a,b)=>Math.max(a,Math.min(b,v))
 const fmt=n=>'$'+Math.round(n)+'k';
 function fresh(name='Alex Combes',nat='Australia',type='balanced'){
  const stats={pace:52,racecraft:51,consistency:52,fitness:50,wet:48,feedback:50};if(type==='qualifier')stats.pace+=7;if(type==='racer')stats.racecraft+=7;if(type==='rain')stats.wet+=10;if(type==='steady')stats.consistency+=8;
- return {version:5.5,name,nat,type,series:0,season:1,round:0,points:0,rep:15,cash:30,morale:72,teamTier:0,stats,dev:{aero:0,engine:0,reliability:0,pit:0},practice:3,phase:'practice',qualStage:0,grid:null,field:[],standings:{},results:[],history:[],offers:[],academy:null,academyOffers:[],rival:null,teammate:null,sponsor:null,superLicence:0,market:[],qualHistory:[],lastQual:null,lastAnalysis:null,lastClassification:null,setup:'Balanced',livery:'Crimson',seasonObjectives:null,objectiveProgress:{},teammateBonusPaid:0,career:{starts:0,wins:0,podiums:0,poles:0,points:0,titles:0,dnfs:0,best:99,f1wins:0,fastestLaps:0,teammateWins:0,teammateLosses:0},race:null,weather:'Dry',forecast:'Dry throughout',weatherPlan:null,sprint:false};
+ return {version:6.1,name,nat,type,series:0,season:1,round:0,points:0,rep:15,cash:30,morale:72,teamTier:0,stats,dev:{aero:0,engine:0,reliability:0,pit:0},practice:3,phase:'practice',qualStage:0,grid:null,field:[],standings:{},results:[],history:[],offers:[],academy:null,academyOffers:[],rival:null,teammate:null,sponsor:null,superLicence:0,market:[],qualHistory:[],lastQual:null,lastAnalysis:null,lastClassification:null,setup:'Balanced',livery:'Crimson',teamLivery:'Crimson GP',seasonObjectives:null,objectiveProgress:{},teammateBonusPaid:0,academyStanding:70,reserveRole:null,fp1Runs:0,poachOffers:[],academyEvents:[],career:{starts:0,wins:0,podiums:0,poles:0,points:0,titles:0,dnfs:0,best:99,f1wins:0,fastestLaps:0,teammateWins:0,teammateLosses:0},race:null,weather:'Dry',forecast:'Dry throughout',weatherPlan:null,sprint:false};
 }
 let S=load()||fresh();
 function cur(){return SERIES[S.series]}function team(){return cur().teams[S.teamTier]}function car(){return clamp(team()[1]+S.dev.aero+S.dev.engine,1,99)}function rel(){return clamp(team()[2]+S.dev.reliability,45,99)}
-function save(show=false){localStorage.setItem('roadToF1V55',JSON.stringify(S));if(show)notice('Career saved.')} 
-function load(){try{let x=JSON.parse(localStorage.getItem('roadToF1V55'));if(x&&x.version===5.5)return x;let old=JSON.parse(localStorage.getItem('roadToF1V54'))||JSON.parse(localStorage.getItem('roadToF1V53'))||JSON.parse(localStorage.getItem('roadToF1V52'))||JSON.parse(localStorage.getItem('roadToF1V51'))||JSON.parse(localStorage.getItem('roadToF1V50'))||JSON.parse(localStorage.getItem('roadToF1V46'))||JSON.parse(localStorage.getItem('roadToF1V45'))||JSON.parse(localStorage.getItem('roadToF1V44'))||JSON.parse(localStorage.getItem('roadToF1V4'))||JSON.parse(localStorage.getItem('roadToF1V33'));if(old){let n={...fresh(old.name,old.nat,old.type),...old,version:5.5};n.superLicence=old.superLicence||Math.min(39,old.series*8);n.market=old.market||[];n.qualHistory=old.qualHistory||[];n.lastQual=old.lastQual||null;n.lastAnalysis=old.lastAnalysis||null;n.lastClassification=old.lastClassification||null;n.setup=old.setup||'Balanced';n.livery=old.livery||'Crimson';n.seasonObjectives=old.seasonObjectives||null;n.objectiveProgress=old.objectiveProgress||{};n.teammateBonusPaid=old.teammateBonusPaid||0;n.academyOffers=old.academyOffers||[];n.career={...fresh().career,...old.career};n.race=null;n.weatherPlan=null;
+function save(show=false){localStorage.setItem('roadToF1V61',JSON.stringify(S));if(show)notice('Career saved.')} 
+function load(){try{let x=JSON.parse(localStorage.getItem('roadToF1V61'));if(x&&x.version===6.1)return x;let old=JSON.parse(localStorage.getItem('roadToF1V60'))||JSON.parse(localStorage.getItem('roadToF1V55'))||JSON.parse(localStorage.getItem('roadToF1V54'))||JSON.parse(localStorage.getItem('roadToF1V53'))||JSON.parse(localStorage.getItem('roadToF1V52'))||JSON.parse(localStorage.getItem('roadToF1V51'))||JSON.parse(localStorage.getItem('roadToF1V50'))||JSON.parse(localStorage.getItem('roadToF1V46'))||JSON.parse(localStorage.getItem('roadToF1V45'))||JSON.parse(localStorage.getItem('roadToF1V44'))||JSON.parse(localStorage.getItem('roadToF1V4'))||JSON.parse(localStorage.getItem('roadToF1V33'));if(old){let n={...fresh(old.name,old.nat,old.type),...old,version:6.1};n.superLicence=old.superLicence||Math.min(39,old.series*8);n.market=old.market||[];n.qualHistory=old.qualHistory||[];n.lastQual=old.lastQual||null;n.lastAnalysis=old.lastAnalysis||null;n.lastClassification=old.lastClassification||null;n.setup=old.setup||'Balanced';n.livery=old.livery||'Crimson';n.seasonObjectives=old.seasonObjectives||null;n.objectiveProgress=old.objectiveProgress||{};n.teammateBonusPaid=old.teammateBonusPaid||0;n.academyOffers=old.academyOffers||[];n.career={...fresh().career,...old.career};n.race=null;n.weatherPlan=null;
     // Repair stale/broken weekend states from V5.4 and earlier.
     // If there is no active race, always reopen the weekend in practice.
     n.phase='practice';n.practice=3;n.grid=null;n.qualStage=0;
@@ -149,11 +149,131 @@ function setupText(){
 function trackType(name){if(/Monaco|Singapore|Baku|Jeddah|Las Vegas|Adelaide/.test(name))return'Street';if(/Monza|Spielberg|Bahrain/.test(name))return'Power';if(/Suzuka|Silverstone|Spa|Phillip/.test(name))return'High speed';return'Balanced'}
 function overall(){let x=S.stats;return Math.round(x.pace*.25+x.racecraft*.22+x.consistency*.18+x.fitness*.12+x.wet*.11+x.feedback*.12)}
 
+
+const F1_ACADEMIES=[
+ {id:'redbull',name:'Red Bull Junior Team',boss:'Helmut Marko',watch:'Aggressive',minRep:34,pace:55,racecraft:54,bonus:1.16,livery:'Navy Red'},
+ {id:'ferrari',name:'Ferrari Driver Academy',boss:"Jérôme d’Ambrosio",watch:'Prestige',minRep:42,pace:58,racecraft:55,bonus:1.12,livery:'Rosso'},
+ {id:'mercedes',name:'Mercedes Junior Team',boss:'Toto Wolff',watch:'Precision',minRep:40,pace:56,racecraft:54,bonus:1.13,livery:'Silver Teal'},
+ {id:'mclaren',name:'McLaren Driver Development',boss:'Alessandro Alunni Bravi',watch:'Development',minRep:36,pace:54,racecraft:54,bonus:1.12,livery:'Papaya'},
+ {id:'williams',name:'Williams Driver Academy',boss:'James Vowles',watch:'Opportunity',minRep:30,pace:52,racecraft:52,bonus:1.10,livery:'Royal Blue'},
+ {id:'alpine',name:'Alpine Academy',boss:'Flavio Briatore',watch:'Results',minRep:32,pace:53,racecraft:53,bonus:1.10,livery:'Alpine Blue'},
+ {id:'aston',name:'Aston Martin Driver Academy',boss:'Andy Cowell',watch:'Potential',minRep:38,pace:55,racecraft:52,bonus:1.11,livery:'British Racing Green'},
+ {id:'audi',name:'Audi Driver Development Programme',boss:'Jonathan Wheatley',watch:'Future',minRep:38,pace:54,racecraft:54,bonus:1.11,livery:'Audi Red'}
+];
+const TEAM_LIVERIES={
+ 'Crimson GP':{a:'#d7263d',b:'#16181c'},'Papaya Racing':{a:'#ff8000',b:'#202124'},
+ 'British Racing Green':{a:'#006f62',b:'#cfd8dc'},'Silver Arrow':{a:'#b9c0c8',b:'#00a19c'},
+ 'Royal Blue':{a:'#1261a0',b:'#f4f7fb'},'Rosso Corse':{a:'#dc0000',b:'#ffd100'},
+ 'Navy Red':{a:'#18204c',b:'#e10600'},'Alpine Blue':{a:'#1671d9',b:'#f48fb1'},
+ 'Audi Red':{a:'#e31b23',b:'#1c1c1c'},'Midnight':{a:'#111827',b:'#9ca3af'},
+ 'Volt':{a:'#a3e635',b:'#111827'},'Arctic':{a:'#f8fafc',b:'#1e3a5f'}
+};
+function academyInterest(a){
+ let score=S.rep*.55+overall()*.30+(S.career.podiums||0)*1.6+(S.career.wins||0)*2.4+(S.career.poles||0)*1.1;
+ if(S.series>=2)score+=5;if(S.series>=3)score+=7;
+ return clamp(Math.round(score-a.minRep*.42),0,100)
+}
+function academyStatus(a){
+ let i=academyInterest(a);
+ if(S.academy===a.id)return'SIGNED';
+ if(i>=72)return'Contract possible';
+ if(i>=55)return'Watching closely';
+ if(i>=38)return'On radar';
+ return'Not watching'
+}
+function renderScouting(){
+ let box=$('scoutingBox');if(!box)return;
+ box.innerHTML=F1_ACADEMIES.map(a=>{let interest=academyInterest(a),status=academyStatus(a),signed=S.academy===a.id;
+ return `<div class="scoutCard ${signed?'signed':''}"><div><strong>${a.name}</strong><small>${a.boss} • ${a.watch}</small></div><div class="interest"><span>${status}</span><b>${interest}%</b></div>${!S.academy&&interest>=72?`<button type="button" data-academy-sign="${a.id}">Discuss academy deal</button>`:''}</div>`}).join('')
+}
+function signAcademy(id){
+ let a=F1_ACADEMIES.find(x=>x.id===id);if(!a||S.academy)return;
+ if(academyInterest(a)<72)return notice(`${a.name} is not ready to offer a deal yet.`);
+ S.academy=a.id;S.academyStanding=70;S.reserveRole=null;S.poachOffers=[];S.cash+=12+S.series*4;S.rep=clamp(S.rep+4,0,100);
+ hist(`🎓 Signed to ${a.name} under ${a.boss}`);notice(`${a.name} signed you to its junior programme. Funding and F1-team attention increased.`);render();save()
+}
+function academyPerformanceUpdate(finish,dnf){
+ if(!S.academy)return;let a=F1_ACADEMIES.find(x=>x.id===S.academy);if(!a)return;
+ let delta=dnf?-1.5:finish<=3?3:finish<=8?1.2:finish>14?-1:0;
+ S.rep=clamp(S.rep+delta,0,100);
+ if(!dnf&&finish<=5)S.cash+=2+S.series;
+ if(Math.random()<.22)hist(`👀 ${a.boss} reviewed your ${dnf?'retirement':'P'+finish} for ${a.name}`)
+}
+
+const ACADEMY_PATHS={
+ redbull:{feeder:'Racing Bulls',junior:'Red Bull-linked junior seat',f1:'Red Bull Racing'},
+ ferrari:{feeder:'Ferrari-affiliated F2 seat',junior:'Ferrari reserve programme',f1:'Scuderia Ferrari'},
+ mercedes:{feeder:'Mercedes-supported F2 seat',junior:'Mercedes reserve programme',f1:'Mercedes F1 Team'},
+ mclaren:{feeder:'McLaren-supported junior seat',junior:'McLaren reserve programme',f1:'McLaren F1 Team'},
+ williams:{feeder:'Williams-supported F2 seat',junior:'Williams reserve programme',f1:'Williams Racing'},
+ alpine:{feeder:'Alpine-supported F2 seat',junior:'Alpine reserve programme',f1:'Alpine F1 Team'},
+ aston:{feeder:'Aston Martin-supported junior seat',junior:'Aston Martin reserve programme',f1:'Aston Martin F1 Team'},
+ audi:{feeder:'Audi-supported F2 seat',junior:'Audi reserve programme',f1:'Audi F1 Team'}
+};
+function academyStandingUpdate(finish,dnf){
+ if(!S.academy)return;
+ if(!Number.isFinite(S.academyStanding))S.academyStanding=70;
+ let change=dnf?-5:finish===1?9:finish<=3?6:finish<=6?3:finish<=10?1:finish>=16?-4:-1;
+ S.academyStanding=clamp(S.academyStanding+change,0,100);
+ let a=F1_ACADEMIES.find(x=>x.id===S.academy),p=ACADEMY_PATHS[S.academy];
+ if(S.academyStanding>=84&&S.series>=2&&!S.reserveRole){
+   S.reserveRole=p.junior;S.cash+=8;S.rep=clamp(S.rep+3,0,100);
+   hist(`🧪 ${a.name}: promoted into ${p.junior}`)
+ }
+ if(S.academyStanding>=90&&S.series>=3&&Math.random()<.32){
+   S.fp1Runs=(S.fp1Runs||0)+1;S.rep=clamp(S.rep+2,0,100);S.cash+=4;
+   hist(`🏎️ FP1 opportunity with ${p.f1} at ${cur().tracks[Math.min(S.round,cur().tracks.length-1)]}`)
+ }
+ if(S.academyStanding<25){
+   hist(`❌ Dropped by ${a.name} after performance review`);
+   S.academyEvents.unshift(`${a.boss} ended your academy contract.`);
+   S.academy=null;S.reserveRole=null;S.academyStanding=70;
+ }
+}
+function maybePoach(){
+ if(!S.academy||S.series<2)return;
+ let current=S.academy;
+ let candidates=F1_ACADEMIES.filter(a=>a.id!==current&&academyInterest(a)>=76);
+ if(!candidates.length||Math.random()>.28)return;
+ let a=candidates.sort((a,b)=>academyInterest(b)-academyInterest(a))[0];
+ if((S.poachOffers||[]).some(x=>x.id===a.id))return;
+ S.poachOffers=S.poachOffers||[];S.poachOffers.push({id:a.id,name:a.name,boss:a.boss,interest:academyInterest(a)});
+ hist(`📞 ${a.boss} has approached you about leaving your current academy for ${a.name}`)
+}
+function acceptPoach(id){
+ let a=F1_ACADEMIES.find(x=>x.id===id);if(!a)return;
+ let old=F1_ACADEMIES.find(x=>x.id===S.academy);
+ S.academy=id;S.academyStanding=68;S.reserveRole=null;S.poachOffers=[];
+ S.cash+=10+S.series*3;S.rep=clamp(S.rep+2,0,100);
+ hist(`🔄 Left ${old?.name||'your academy'} and joined ${a.name}`);
+ notice(`${a.boss} has signed you to ${a.name}.`);render();save()
+}
+function rejectPoach(id){
+ let a=F1_ACADEMIES.find(x=>x.id===id);S.poachOffers=(S.poachOffers||[]).filter(x=>x.id!==id);
+ if(a)hist(`🤝 Rejected ${a.name}'s approach and stayed loyal`);S.academyStanding=clamp((S.academyStanding||70)+3,0,100);render();save()
+}
+function renderAcademyCareer(){
+ let box=$('academyCareerBox');if(!box)return;
+ if(!S.academy){box.innerHTML='<div class="muted">Sign with an F1 junior academy to unlock team pathways, reserve roles, FP1 opportunities and poaching.</div>';return}
+ let a=F1_ACADEMIES.find(x=>x.id===S.academy),p=ACADEMY_PATHS[S.academy],offers=S.poachOffers||[];
+ box.innerHTML=`<div class="academyPath"><strong>${a.name}</strong><span>Boss: ${a.boss}</span><div class="standingBar"><i style="width:${S.academyStanding||70}%"></i></div><b>Academy standing ${Math.round(S.academyStanding||70)}%</b><p>${p.feeder} → ${p.junior} → ${p.f1}</p><p>Reserve role: <strong>${S.reserveRole||'Not yet'}</strong> • FP1 runs: <strong>${S.fp1Runs||0}</strong></p></div>`+
+ offers.map(o=>`<div class="poach"><strong>Rival approach: ${o.name}</strong><span>${o.boss} wants to sign you.</span><button data-poach-accept="${o.id}">Join</button><button data-poach-reject="${o.id}">Stay loyal</button></div>`).join('')
+}
+
+function setTeamLivery(name){
+ if(!TEAM_LIVERIES[name])return;S.teamLivery=name;renderTeamLivery();save()
+}
+function renderTeamLivery(){
+ let sel=$('teamLiverySelect'),carEl=$('teamLiveryCar');if(!sel||!carEl)return;
+ if(!S.teamLivery||!TEAM_LIVERIES[S.teamLivery])S.teamLivery='Crimson GP';
+ sel.value=S.teamLivery;let l=TEAM_LIVERIES[S.teamLivery];carEl.style.setProperty('--car-a',l.a);carEl.style.setProperty('--car-b',l.b)
+}
+
 const LIVERIES={Crimson:{a:'#d7263d',b:'#171717'},Azure:{a:'#1976d2',b:'#e9eef5'},Emerald:{a:'#168a5b',b:'#101820'},Gold:{a:'#d4a017',b:'#202020'},Violet:{a:'#7541c8',b:'#111318'},Papaya:{a:'#ef7d00',b:'#1c1c1c'},Silver:{a:'#b9c0c8',b:'#24272c'},Arctic:{a:'#f1f5f9',b:'#1e3a5f'}};
 function renderLivery(){let sel=$('liverySelect');if(!sel)return;sel.value=S.livery||'Crimson';let l=LIVERIES[S.livery]||LIVERIES.Crimson,car=$('liveryCar');if(car){car.style.setProperty('--car-a',l.a);car.style.setProperty('--car-b',l.b)}}
 function setLivery(v){if(!LIVERIES[v])return;S.livery=v;renderLivery();save()}
 
-function render(){if(S.phase==='practice'&&!Number.isFinite(S.practice))S.practice=3;if(!S.seasonObjectives)generateSeasonObjectives();ensure();let c=cur(),track=c.tracks[S.round]||'Season complete';$('hudDriver').textContent=S.name;$('hudSeries').textContent=c.name;$('hudSeason').textContent=S.season;$('hudRound').textContent=(S.round+1)+'/'+c.rounds;$('hudPoints').textContent=S.points;$('hudRep').textContent=Math.round(S.rep);$('hudCash').textContent=fmt(S.cash);$('hudSL').textContent=Math.round(S.superLicence)+'/40';$('trackTitle').textContent=track;$('trackMeta').textContent=trackType(track)+' circuit • '+c.laps+' laps'+(S.sprint?' • Sprint weekend':'');$('weatherLabel').textContent=S.weather==='Dry'?'☀️ Dry':S.weather==='Wet'?'🌧️ Wet':'🌦️ Mixed';$('weatherForecast').textContent=S.forecast;$('practiceLeft').textContent=S.practice+' sessions left';if($('carSetup'))$('carSetup').value=S.setup||'Balanced';if($('setupAdvice'))$('setupAdvice').textContent=setupText();renderObjectives();renderLivery();renderFuelLoad();renderPhases();renderTraining();renderDriver();renderStandings();renderTeam();renderHistory();renderRace();renderQual();}
+function render(){if(S.phase==='practice'&&!Number.isFinite(S.practice))S.practice=3;if(!S.seasonObjectives)generateSeasonObjectives();ensure();let c=cur(),track=c.tracks[S.round]||'Season complete';$('hudDriver').textContent=S.name;$('hudSeries').textContent=c.name;$('hudSeason').textContent=S.season;$('hudRound').textContent=(S.round+1)+'/'+c.rounds;$('hudPoints').textContent=S.points;$('hudRep').textContent=Math.round(S.rep);$('hudCash').textContent=fmt(S.cash);$('hudSL').textContent=Math.round(S.superLicence)+'/40';$('trackTitle').textContent=track;$('trackMeta').textContent=trackType(track)+' circuit • '+c.laps+' laps'+(S.sprint?' • Sprint weekend':'');$('weatherLabel').textContent=S.weather==='Dry'?'☀️ Dry':S.weather==='Wet'?'🌧️ Wet':'🌦️ Mixed';$('weatherForecast').textContent=S.forecast;$('practiceLeft').textContent=S.practice+' sessions left';if($('carSetup'))$('carSetup').value=S.setup||'Balanced';if($('setupAdvice'))$('setupAdvice').textContent=setupText();renderObjectives();renderLivery();renderTeamLivery();renderScouting();renderAcademyCareer();renderFuelLoad();renderPhases();renderTraining();renderDriver();renderStandings();renderTeam();renderHistory();renderRace();renderQual();}
 function renderPhases(){let phases=['Practice',S.series===4?'Q1/Q2/Q3':'Qualifying',S.sprint?'Sprint':'Race','Race'];if(!S.sprint)phases=['Practice',S.series===4?'Q1/Q2/Q3':'Qualifying','Race'];let current=S.phase;let done={practice:['qualifying','sprint','race','finished'].includes(current),qualifying:['sprint','race','finished'].includes(current),sprint:['race','finished'].includes(current),race:current==='finished'};$('phaseStrip').innerHTML=phases.map(p=>{let key=p.startsWith('Q')||p==='Qualifying'?'qualifying':p.toLowerCase();return`<span class="phase ${done[key]?'done':''} ${current===key?'active':''}">${done[key]?'✓ ':''}${p}</span>`}).join('')}
 function renderTraining(){let items=[['pace','🏎️ Pace','Raw speed'],['racecraft','⚔️ Racecraft','Overtaking/defence'],['consistency','🎯 Consistency','Fewer mistakes'],['fitness','💪 Fitness','Race endurance'],['wet','🌧️ Wet skill','Rain pace'],['feedback','🧠 Feedback','Setup/development']];$('trainingGrid').innerHTML=items.map(x=>`<button type="button" data-train="${x[0]}" ${S.phase!=='practice'||S.practice<=0?'disabled':''}>${x[1]}<small>${x[2]}</small></button>`).join('')}
 function train(k){
@@ -350,7 +470,7 @@ function finishRace(){
  S.standings.player=(S.standings.player||0)+pts;
  r.racers.forEach((d,i)=>{if(d.player)return;let q=d.dnf?0:(r.sprint?([8,7,6,5,4,3,2,1][i]||0):(POINTS[i]||0));S.standings[d.id]=(S.standings[d.id]||0)+q});
  let mate=r.racers.find(x=>x.id===S.teammate);if(mate&&!r.sprint){if(!dnf&&finish<mate.pos){S.career.teammateWins++;let tb=2+S.series*2;S.cash+=tb;S.teammateBonusPaid=(S.teammateBonusPaid||0)+tb;feed('💰 Teammate bonus: '+fmt(tb)+' for finishing ahead of '+mate.name+'.')}else S.career.teammateLosses++}
- S.rep=clamp(S.rep+(dnf?-1:Math.max(-.5,6-finish*.28)),0,100);S.cash+=3+S.series*6+(finish<=10?11-finish:0);if(!r.sprint)awardSuperLicence(finish);
+ S.rep=clamp(S.rep+(dnf?-1:Math.max(-.5,6-finish*.28)),0,100);academyPerformanceUpdate(finish,dnf);academyStandingUpdate(finish,dnf);if(!r.sprint)maybePoach();S.cash+=3+S.series*6+(finish<=10?11-finish:0);if(!r.sprint)awardSuperLicence(finish);
  S.results.unshift({season:S.season,track:cur().tracks[S.round],kind:r.sprint?'Sprint':'Race',finish:dnf?'DNF':'P'+finish,points:pts});S.lastAnalysis=buildRaceAnalysis(r,p,finish,dnf);hist(`${r.sprint?'Sprint':'Race'} ${dnf?'DNF':'P'+finish} at ${cur().tracks[S.round]}`);feed(`🏁 Finished ${dnf?'DNF':'P'+finish} • ${pts} points.`);
  if(r.sprint){S.race=null;S.phase='race';notice('Sprint complete. Main race ready. Final sprint classification shown below.');render();save();return}
  S.race=null;S.round++;S.grid=null;S.qualStage=0;S.practice=3;S.phase='practice';
@@ -373,7 +493,12 @@ function updateObjectives(){if(!S.seasonObjectives)generateSeasonObjectives();S.
 function objectiveMet(o){updateObjectives();return o.id==='finish'?S.objectiveProgress.finish<=o.target:(S.objectiveProgress[o.id]||0)>=o.target}
 function renderObjectives(){let el=$('objectives');if(!el)return;if(!S.seasonObjectives)generateSeasonObjectives();updateObjectives();el.innerHTML=S.seasonObjectives.map(o=>`<div class="objective ${objectiveMet(o)?'done':''}"><span>${objectiveMet(o)?'✅':'◻️'} ${o.label}</span><strong>${fmt(o.reward)}</strong></div>`).join('')}
 
-function endSeason(){if(!S.seasonObjectives)generateSeasonObjectives();updateObjectives();let objectiveBonus=0;S.seasonObjectives.forEach(o=>{if(objectiveMet(o))objectiveBonus+=o.reward});if(objectiveBonus){S.cash+=objectiveBonus;notice('Season objectives bonus: '+fmt(objectiveBonus)+'.')}S.seasonObjectives=null;S.objectiveProgress={};let rows=standingRows(),pos=rows.findIndex(x=>x.player)+1;if(pos===1){S.career.titles++;hist('🏆 '+cur().name+' champion');S.superLicence=clamp(S.superLicence+[0,12,18,30,0][S.series],0,40)}if(S.series<4&&pos<=cur().promotePos&&S.rep>=cur().promoteRep){if(S.series===3&&S.superLicence<40){hist('⚠️ F1 promotion blocked: Super Licence incomplete')}else{S.series++;S.teamTier=0;hist('⬆️ Promoted to '+cur().name)}}else if(pos<=8&&S.teamTier<2){S.teamTier++;hist('📄 Signed by '+team()[0])}driverMarket();S.season++;S.round=0;S.points=0;S.standings={};S.dev.aero=Math.max(0,S.dev.aero-1);S.dev.engine=Math.max(0,S.dev.engine-1);makeField();weather();S.sprint=S.series===4&&Math.random()<.25;S.practice=3;S.phase='practice';S.grid=null;notice('New season begins.');save()}
+function endSeason(){
+ if(S.academy){
+   let a=F1_ACADEMIES.find(x=>x.id===S.academy),p=ACADEMY_PATHS[S.academy];
+   if((S.academyStanding||0)>=75){S.cash+=8+S.series*2;S.rep=clamp(S.rep+3,0,100);hist(`🎓 ${a.name} backing strengthened your pathway via ${p.feeder}`)}
+ }
+if(!S.seasonObjectives)generateSeasonObjectives();updateObjectives();let objectiveBonus=0;S.seasonObjectives.forEach(o=>{if(objectiveMet(o))objectiveBonus+=o.reward});if(objectiveBonus){S.cash+=objectiveBonus;notice('Season objectives bonus: '+fmt(objectiveBonus)+'.')}S.seasonObjectives=null;S.objectiveProgress={};let rows=standingRows(),pos=rows.findIndex(x=>x.player)+1;if(pos===1){S.career.titles++;hist('🏆 '+cur().name+' champion');S.superLicence=clamp(S.superLicence+[0,12,18,30,0][S.series],0,40)}if(S.series<4&&pos<=cur().promotePos&&S.rep>=cur().promoteRep){if(S.series===3&&S.superLicence<40){hist('⚠️ F1 promotion blocked: Super Licence incomplete')}else{S.series++;S.teamTier=0;hist('⬆️ Promoted to '+cur().name)}}else if(pos<=8&&S.teamTier<2){S.teamTier++;hist('📄 Signed by '+team()[0])}driverMarket();S.season++;S.round=0;S.points=0;S.standings={};S.dev.aero=Math.max(0,S.dev.aero-1);S.dev.engine=Math.max(0,S.dev.engine-1);makeField();weather();S.sprint=S.series===4&&Math.random()<.25;S.practice=3;S.phase='practice';S.grid=null;notice('New season begins.');save()}
 function driverMarket(){let moves=[];let sample=[...S.field].sort(()=>Math.random()-.5).slice(0,ri(3,6));sample.forEach(d=>{let old=d.teamTier||0,newTier=clamp(old+(Math.random()<.55?1:-1),0,2);if(newTier!==old){moves.push(`${d.name}: ${cur().teams[old][0]} → ${cur().teams[newTier][0]}`);d.teamTier=newTier}});S.market=moves.slice(0,8);if(moves.length)hist('🔄 Driver market reshuffle: '+moves.length+' moves')}
 function lapTimeFmt(sec){if(!Number.isFinite(sec))return'—';let m=Math.floor(sec/60),ss=sec-m*60;return m+':'+ss.toFixed(3).padStart(6,'0')}function raceClockFmt(sec){if(!Number.isFinite(sec))return'—';let h=Math.floor(sec/3600),m=Math.floor((sec%3600)/60),ss=Math.floor(sec%60);return(h?h+':':'')+String(m).padStart(h?2:1,'0')+':'+String(ss).padStart(2,'0')}
 function normalizeTiming(r){if(!r||!Array.isArray(r.racers))return;let alive=r.racers.filter(d=>!d.dnf);alive.forEach((d,i)=>{if(!Number.isFinite(d.totalTime))d.totalTime=(d.pos||i+1-1)*.18});alive.sort((a,b)=>a.totalTime-b.totalTime);let dead=r.racers.filter(d=>d.dnf);r.racers=[...alive,...dead];let leader=alive[0],prev=null;r.racers.forEach((d,i)=>{d.pos=i+1;if(d.dnf){d.gap=null;d.interval=null;return}d.gap=leader?Math.max(0,d.totalTime-leader.totalTime):0;d.interval=prev?Math.max(0,d.totalTime-prev.totalTime):0;prev=d});r.leaderTime=leader?leader.totalTime:0}
@@ -424,7 +549,15 @@ function bind(){
  if($('qualBtn'))$('qualBtn').onclick=qualifyingAction;
  if($('resetWeekendBtn'))$('resetWeekendBtn').onclick=()=>{S.race=null;S.grid=null;S.qualStage=0;S.practice=3;S.phase='practice';notice('Weekend reset. Practice and qualifying are available again.');render();save();};
 if($('fuelLoad'))$('fuelLoad').oninput=renderFuelLoad;if($('liverySelect'))$('liverySelect').onchange=e=>setLivery(e.target.value);document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active')});$('qualBtn').onclick=qualifyingAction;$('raceBtn').onclick=startRace;$('lapBtn').onclick=()=>advance(1);$('fiveBtn').onclick=()=>advance(5);$('autoBtn').onclick=()=>{for(let i=0;i<10&&S.race&&!S.race.pending;i++)simLap();renderRace();render();save()};$('saveBtn').onclick=()=>save(true);$('newBtn').onclick=()=>{if(confirm('Start a new career and replace your save?'))$('newDialog').showModal()};['startTyre','risk','ers','fuel','paceMode','carSetup'].forEach(id=>$(id).onchange=()=>{S.setup=$('carSetup').value||S.setup;renderStrategyAdvice();$('setupAdvice').textContent=setupText();if(S.race){feed('📻 Controls updated • pace '+$('paceMode').value+' • fuel '+$('fuel').value+' • ERS '+$('ers').value+'.');renderRace();save()}});$('newForm').onsubmit=e=>{e.preventDefault();S=fresh($('driverName').value.trim()||'Alex Combes',$('nationality').value,$('archetype').value);makeField();weather();hist('🏁 Career started in Karting');$('newDialog').close();notice('Career started. Begin practice.');render();save()}}
+
+ document.addEventListener('click',e=>{
+  let b=e.target.closest('[data-academy-sign]');if(b)signAcademy(b.dataset.academySign);
+  let a=e.target.closest('[data-poach-accept]');if(a)acceptPoach(a.dataset.poachAccept);
+  let r=e.target.closest('[data-poach-reject]');if(r)rejectPoach(r.dataset.poachReject);
+ });
+ if($('teamLiverySelect'))$('teamLiverySelect').onchange=e=>setTeamLivery(e.target.value);
+
 ensure();
 if(!['practice','qualifying','sprint','race','finished'].includes(S.phase)){S.phase='practice';S.practice=3;S.grid=null;S.race=null}
 if(S.phase==='race'&&!S.grid&&!S.race){S.phase='practice';S.practice=3}
-bind();if(!localStorage.getItem('roadToF1V55')&&!localStorage.getItem('roadToF1V53')&&!localStorage.getItem('roadToF1V52')&&!localStorage.getItem('roadToF1V51')&&!localStorage.getItem('roadToF1V50')&&!localStorage.getItem('roadToF1V46')&&!localStorage.getItem('roadToF1V44')&&!localStorage.getItem('roadToF1V4')&&!localStorage.getItem('roadToF1V33'))$('newDialog').showModal();render();
+bind();if(!localStorage.getItem('roadToF1V61')&&!localStorage.getItem('roadToF1V53')&&!localStorage.getItem('roadToF1V52')&&!localStorage.getItem('roadToF1V51')&&!localStorage.getItem('roadToF1V50')&&!localStorage.getItem('roadToF1V46')&&!localStorage.getItem('roadToF1V44')&&!localStorage.getItem('roadToF1V4')&&!localStorage.getItem('roadToF1V33'))$('newDialog').showModal();render();

@@ -28,12 +28,12 @@ const $=id=>document.getElementById(id),clamp=(v,a,b)=>Math.max(a,Math.min(b,v))
 const fmt=n=>'$'+Math.round(n)+'k';
 function fresh(name='Alex Combes',nat='Australia',type='balanced'){
  const stats={pace:52,racecraft:51,consistency:52,fitness:50,wet:48,feedback:50};if(type==='qualifier')stats.pace+=7;if(type==='racer')stats.racecraft+=7;if(type==='rain')stats.wet+=10;if(type==='steady')stats.consistency+=8;
- return {version:5.3,name,nat,type,series:0,season:1,round:0,points:0,rep:15,cash:30,morale:72,teamTier:0,stats,dev:{aero:0,engine:0,reliability:0,pit:0},practice:3,phase:'practice',qualStage:0,grid:null,field:[],standings:{},results:[],history:[],offers:[],academy:null,academyOffers:[],rival:null,teammate:null,sponsor:null,superLicence:0,market:[],qualHistory:[],lastQual:null,lastAnalysis:null,lastClassification:null,setup:'Balanced',livery:'Crimson',seasonObjectives:null,objectiveProgress:{},teammateBonusPaid:0,career:{starts:0,wins:0,podiums:0,poles:0,points:0,titles:0,dnfs:0,best:99,f1wins:0,fastestLaps:0,teammateWins:0,teammateLosses:0},race:null,weather:'Dry',forecast:'Dry throughout',weatherPlan:null,sprint:false};
+ return {version:5.4,name,nat,type,series:0,season:1,round:0,points:0,rep:15,cash:30,morale:72,teamTier:0,stats,dev:{aero:0,engine:0,reliability:0,pit:0},practice:3,phase:'practice',qualStage:0,grid:null,field:[],standings:{},results:[],history:[],offers:[],academy:null,academyOffers:[],rival:null,teammate:null,sponsor:null,superLicence:0,market:[],qualHistory:[],lastQual:null,lastAnalysis:null,lastClassification:null,setup:'Balanced',livery:'Crimson',seasonObjectives:null,objectiveProgress:{},teammateBonusPaid:0,career:{starts:0,wins:0,podiums:0,poles:0,points:0,titles:0,dnfs:0,best:99,f1wins:0,fastestLaps:0,teammateWins:0,teammateLosses:0},race:null,weather:'Dry',forecast:'Dry throughout',weatherPlan:null,sprint:false};
 }
 let S=load()||fresh();
 function cur(){return SERIES[S.series]}function team(){return cur().teams[S.teamTier]}function car(){return clamp(team()[1]+S.dev.aero+S.dev.engine,1,99)}function rel(){return clamp(team()[2]+S.dev.reliability,45,99)}
-function save(show=false){localStorage.setItem('roadToF1V53',JSON.stringify(S));if(show)notice('Career saved.')} 
-function load(){try{let x=JSON.parse(localStorage.getItem('roadToF1V53'));if(x&&x.version===5.3)return x;let old=JSON.parse(localStorage.getItem('roadToF1V52'))||JSON.parse(localStorage.getItem('roadToF1V51'))||JSON.parse(localStorage.getItem('roadToF1V50'))||JSON.parse(localStorage.getItem('roadToF1V46'))||JSON.parse(localStorage.getItem('roadToF1V45'))||JSON.parse(localStorage.getItem('roadToF1V44'))||JSON.parse(localStorage.getItem('roadToF1V4'))||JSON.parse(localStorage.getItem('roadToF1V33'));if(old){let n={...fresh(old.name,old.nat,old.type),...old,version:5.3};n.superLicence=old.superLicence||Math.min(39,old.series*8);n.market=old.market||[];n.qualHistory=old.qualHistory||[];n.lastQual=old.lastQual||null;n.lastAnalysis=old.lastAnalysis||null;n.lastClassification=old.lastClassification||null;n.setup=old.setup||'Balanced';n.livery=old.livery||'Crimson';n.seasonObjectives=old.seasonObjectives||null;n.objectiveProgress=old.objectiveProgress||{};n.teammateBonusPaid=old.teammateBonusPaid||0;n.academyOffers=old.academyOffers||[];n.career={...fresh().career,...old.career};n.race=null;n.weatherPlan=null;n.phase=old.grid?'race':(old.phase==='finished'?'practice':old.phase);return n}return null}catch{return null}}
+function save(show=false){localStorage.setItem('roadToF1V54',JSON.stringify(S));if(show)notice('Career saved.')} 
+function load(){try{let x=JSON.parse(localStorage.getItem('roadToF1V54'));if(x&&x.version===5.3)return x;let old=JSON.parse(localStorage.getItem('roadToF1V53'))||JSON.parse(localStorage.getItem('roadToF1V52'))||JSON.parse(localStorage.getItem('roadToF1V51'))||JSON.parse(localStorage.getItem('roadToF1V50'))||JSON.parse(localStorage.getItem('roadToF1V46'))||JSON.parse(localStorage.getItem('roadToF1V45'))||JSON.parse(localStorage.getItem('roadToF1V44'))||JSON.parse(localStorage.getItem('roadToF1V4'))||JSON.parse(localStorage.getItem('roadToF1V33'));if(old){let n={...fresh(old.name,old.nat,old.type),...old,version:5.4};n.superLicence=old.superLicence||Math.min(39,old.series*8);n.market=old.market||[];n.qualHistory=old.qualHistory||[];n.lastQual=old.lastQual||null;n.lastAnalysis=old.lastAnalysis||null;n.lastClassification=old.lastClassification||null;n.setup=old.setup||'Balanced';n.livery=old.livery||'Crimson';n.seasonObjectives=old.seasonObjectives||null;n.objectiveProgress=old.objectiveProgress||{};n.teammateBonusPaid=old.teammateBonusPaid||0;n.academyOffers=old.academyOffers||[];n.career={...fresh().career,...old.career};n.race=null;n.weatherPlan=null;n.phase=old.grid?'race':(old.phase==='finished'?'practice':old.phase);return n}return null}catch{return null}}
 function notice(t){$('notice').textContent=t}function hist(t){S.history.unshift({t,season:S.season,series:cur().name});S.history=S.history.slice(0,180)}
 function weather(){let r=Math.random(),idx=r<.50?0:r<.65?1:r<.76?2:r<.91?3:4,p={...WEATHER_PROFILES[idx]};p.variation=rnd(-.08,.08);S.weatherPlan=p;S.forecast=p.forecast;let w=p.start;S.weather=w>=58?'Wet':w>=18?'Mixed':'Dry'}
 function weatherAtProgress(progress,plan){plan=plan||S.weatherPlan||WEATHER_PROFILES[0];let wet=plan.start||0;if(plan.rainStart!==null){let rs=clamp((plan.rainStart||0)+(plan.variation||0),0,.9),re=clamp((plan.rainEnd??1)+(plan.variation||0),rs+.08,1);if(progress<rs)wet=Math.max(0,plan.start*(1-progress/Math.max(.01,rs)));else if(progress<=re){let x=(progress-rs)/(re-rs);wet=clamp((plan.start||0)+(plan.peak-(plan.start||0))*Math.sin(Math.PI*Math.min(1,x)*.82),0,100)}else{let dry=(progress-re)/Math.max(.01,1-re);wet=clamp(plan.peak*(1-dry*1.35),0,100)}}return wet}
@@ -68,6 +68,66 @@ function wetMistakeRisk(tyre,w){
 }
 
 function weatherLabelFromWetness(w){let x=weatherState(w);return x.icon+' '+x.label}
+
+function bestTyreForWetness(w){return w>=68?'Wet':w>=18?'Intermediate':null}
+function tyreWeatherPenalty(tyre,w){return -realisticTyrePenalty(tyre,w)}
+function makeField(){
+ S.field=[];let used=new Set([S.name]),base=49+S.series*8;
+ for(let i=0;i<19;i++){
+  let n;do n=FIRST[ri(0,FIRST.length-1)]+' '+LAST[ri(0,LAST.length-1)];while(used.has(n));used.add(n);
+  let teamTier=ri(0,2),teamPerf=cur().teams[teamTier][1];
+  S.field.push({id:'d'+i,name:n,skill:clamp(base+rnd(-14,14),30,98),wet:clamp(base+rnd(-16,16),25,99),cons:clamp(base+rnd(-12,13),30,98),car:clamp(teamPerf+rnd(-2.5,2.5),35,99),points:0,wins:0,teamTier})
+ }
+ S.spreadV42=true;
+ S.rival=[...S.field].sort((a,b)=>b.skill-a.skill)[Math.min(3,S.series)]?.id||'d0';
+ S.teammate=[...S.field].sort((a,b)=>Math.abs(b.skill-overall())-Math.abs(a.skill-overall()))[0]?.id||'d0'
+}
+function ensure(){
+ if(!S.field||S.field.length!==19)makeField();
+ if(!S.spreadV42&&S.field?.length===19){
+  let base=49+S.series*8;
+  S.field.forEach(d=>{d.teamTier=clamp(d.teamTier??ri(0,2),0,2);let teamPerf=cur().teams[d.teamTier][1];d.skill=clamp(base+(d.skill-base)*1.45+rnd(-1.5,1.5),30,98);d.wet=clamp(base+(d.wet-base)*1.25,25,99);d.cons=clamp(base+(d.cons-base)*1.3,30,98);d.car=clamp(teamPerf+rnd(-2,2),35,99)});
+  S.spreadV42=true
+ }
+ if(!S.weather||!S.weatherPlan)weather();
+ if(S.sprint===undefined)S.sprint=false;
+ if(!S.career.fastestLaps)S.career.fastestLaps=0;
+ if(!S.market)S.market=[];
+ if(!S.academyOffers)S.academyOffers=[]
+}
+const TRACK_CHARS={
+ 'Monaco':{downforce:100,power:15,traction:95,desc:'Maximum downforce • low-speed traction'},
+ 'Singapore':{downforce:92,power:30,traction:92,desc:'Very high downforce • traction and braking'},
+ 'Hungaroring':{downforce:88,power:28,traction:82,desc:'High downforce • technical'},
+ 'Monza':{downforce:18,power:100,traction:42,desc:'Minimum downforce • maximum straight-line speed'},
+ 'Las Vegas':{downforce:28,power:94,traction:55,desc:'Low downforce • long straights • heavy braking'},
+ 'Baku':{downforce:42,power:92,traction:62,desc:'Long straights but technical castle sector'},
+ 'Jeddah':{downforce:58,power:85,traction:55,desc:'Fast street circuit • efficient low-drag aero'},
+ 'Spa':{downforce:55,power:85,traction:48,desc:'High-speed efficiency • long straights'},
+ 'Silverstone':{downforce:78,power:62,traction:55,desc:'High-speed downforce'},
+ 'Suzuka':{downforce:82,power:58,traction:58,desc:'High-speed aero balance'},
+ 'Spielberg':{downforce:40,power:85,traction:60,desc:'Power and traction'},
+ 'Bahrain':{downforce:55,power:72,traction:78,desc:'Traction, braking and rear tyre management'},
+ 'Barcelona':{downforce:78,power:55,traction:64,desc:'Aero efficiency and long-corner balance'},
+ 'Melbourne':{downforce:62,power:70,traction:55,desc:'Medium-high speed, balanced efficiency'},
+ 'Interlagos':{downforce:60,power:76,traction:72,desc:'Traction plus uphill straight-line speed'},
+ 'Mexico City':{downforce:88,power:70,traction:65,desc:'Thin air means high wing with low drag'},
+ 'Qatar':{downforce:76,power:62,traction:52,desc:'Fast flowing corners'},
+ 'Abu Dhabi':{downforce:58,power:74,traction:72,desc:'Balanced with traction and straights'},
+ 'Yas Marina':{downforce:58,power:74,traction:72,desc:'Balanced with traction and straights'},
+ 'Imola':{downforce:70,power:62,traction:68,desc:'Technical, kerbs and medium-high speed'},
+ 'Adelaide':{downforce:58,power:70,traction:75,desc:'Street traction and braking'},
+ 'Phillip Island':{downforce:78,power:58,traction:52,desc:'Fast flowing circuit'}
+};
+function trackCharacteristics(name=cur().tracks[S.round]){
+ let direct=TRACK_CHARS[name];if(direct)return direct;
+ let t=trackType(name);
+ if(t==='Street')return{downforce:78,power:55,traction:82,desc:'Street circuit • traction and downforce'};
+ if(t==='Power')return{downforce:35,power:88,traction:62,desc:'Power circuit • straight-line speed'};
+ if(t==='High speed')return{downforce:74,power:68,traction:50,desc:'High-speed aero efficiency'};
+ return{downforce:60,power:60,traction:60,desc:'Balanced circuit'}
+}
+
 function setupEffect(setup=S.setup||'Balanced',name=cur().tracks[S.round]){
  let c=trackCharacteristics(name);
  let target=(c.downforce-c.power)/100;
@@ -91,7 +151,7 @@ function setLivery(v){if(!LIVERIES[v])return;S.livery=v;renderLivery();save()}
 
 function render(){if(S.phase==='practice'&&!Number.isFinite(S.practice))S.practice=3;if(!S.seasonObjectives)generateSeasonObjectives();ensure();let c=cur(),track=c.tracks[S.round]||'Season complete';$('hudDriver').textContent=S.name;$('hudSeries').textContent=c.name;$('hudSeason').textContent=S.season;$('hudRound').textContent=(S.round+1)+'/'+c.rounds;$('hudPoints').textContent=S.points;$('hudRep').textContent=Math.round(S.rep);$('hudCash').textContent=fmt(S.cash);$('hudSL').textContent=Math.round(S.superLicence)+'/40';$('trackTitle').textContent=track;$('trackMeta').textContent=trackType(track)+' circuit • '+c.laps+' laps'+(S.sprint?' • Sprint weekend':'');$('weatherLabel').textContent=S.weather==='Dry'?'☀️ Dry':S.weather==='Wet'?'🌧️ Wet':'🌦️ Mixed';$('weatherForecast').textContent=S.forecast;$('practiceLeft').textContent=S.practice+' sessions left';if($('carSetup'))$('carSetup').value=S.setup||'Balanced';if($('setupAdvice'))$('setupAdvice').textContent=setupText();renderObjectives();renderLivery();renderFuelLoad();renderPhases();renderTraining();renderDriver();renderStandings();renderTeam();renderHistory();renderRace();renderQual();}
 function renderPhases(){let phases=['Practice',S.series===4?'Q1/Q2/Q3':'Qualifying',S.sprint?'Sprint':'Race','Race'];if(!S.sprint)phases=['Practice',S.series===4?'Q1/Q2/Q3':'Qualifying','Race'];let current=S.phase;let done={practice:['qualifying','sprint','race','finished'].includes(current),qualifying:['sprint','race','finished'].includes(current),sprint:['race','finished'].includes(current),race:current==='finished'};$('phaseStrip').innerHTML=phases.map(p=>{let key=p.startsWith('Q')||p==='Qualifying'?'qualifying':p.toLowerCase();return`<span class="phase ${done[key]?'done':''} ${current===key?'active':''}">${done[key]?'✓ ':''}${p}</span>`}).join('')}
-function renderTraining(){let items=[['pace','🏎️ Pace','Raw speed'],['racecraft','⚔️ Racecraft','Overtaking/defence'],['consistency','🎯 Consistency','Fewer mistakes'],['fitness','💪 Fitness','Race endurance'],['wet','🌧️ Wet skill','Rain pace'],['feedback','🧠 Feedback','Setup/development']];$('trainingGrid').innerHTML=items.map(x=>`<button data-train="${x[0]}" ${S.phase!=='practice'||S.practice<=0?'disabled':''}>${x[1]}<small>${x[2]}</small></button>`).join('')}
+function renderTraining(){let items=[['pace','🏎️ Pace','Raw speed'],['racecraft','⚔️ Racecraft','Overtaking/defence'],['consistency','🎯 Consistency','Fewer mistakes'],['fitness','💪 Fitness','Race endurance'],['wet','🌧️ Wet skill','Rain pace'],['feedback','🧠 Feedback','Setup/development']];$('trainingGrid').innerHTML=items.map(x=>`<button type="button" data-train="${x[0]}" ${S.phase!=='practice'||S.practice<=0?'disabled':''}>${x[1]}<small>${x[2]}</small></button>`).join('')}
 function train(k){
  if(S.phase!=='practice')return notice('Driver development is available during practice.');
  if(S.practice<=0)return notice('Practice is complete. Proceed to qualifying.');
@@ -359,4 +419,4 @@ function bind(){
  if($('trainingGrid'))$('trainingGrid').addEventListener('click',e=>{let b=e.target.closest('[data-train]');if(b&&!b.disabled)train(b.dataset.train)});
  if($('qualBtn'))$('qualBtn').onclick=qualifyingAction;
 if($('fuelLoad'))$('fuelLoad').oninput=renderFuelLoad;if($('liverySelect'))$('liverySelect').onchange=e=>setLivery(e.target.value);document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active')});$('qualBtn').onclick=qualifyingAction;$('raceBtn').onclick=startRace;$('lapBtn').onclick=()=>advance(1);$('fiveBtn').onclick=()=>advance(5);$('autoBtn').onclick=()=>{for(let i=0;i<10&&S.race&&!S.race.pending;i++)simLap();renderRace();render();save()};$('saveBtn').onclick=()=>save(true);$('newBtn').onclick=()=>{if(confirm('Start a new career and replace your save?'))$('newDialog').showModal()};['startTyre','risk','ers','fuel','paceMode','carSetup'].forEach(id=>$(id).onchange=()=>{S.setup=$('carSetup').value||S.setup;renderStrategyAdvice();$('setupAdvice').textContent=setupText();if(S.race){feed('📻 Controls updated • pace '+$('paceMode').value+' • fuel '+$('fuel').value+' • ERS '+$('ers').value+'.');renderRace();save()}});$('newForm').onsubmit=e=>{e.preventDefault();S=fresh($('driverName').value.trim()||'Alex Combes',$('nationality').value,$('archetype').value);makeField();weather();hist('🏁 Career started in Karting');$('newDialog').close();notice('Career started. Begin practice.');render();save()}}
-ensure();bind();if(!localStorage.getItem('roadToF1V44')&&!localStorage.getItem('roadToF1V4')&&!localStorage.getItem('roadToF1V33'))$('newDialog').showModal();render();
+ensure();bind();if(!localStorage.getItem('roadToF1V54')&&!localStorage.getItem('roadToF1V53')&&!localStorage.getItem('roadToF1V52')&&!localStorage.getItem('roadToF1V51')&&!localStorage.getItem('roadToF1V50')&&!localStorage.getItem('roadToF1V46')&&!localStorage.getItem('roadToF1V44')&&!localStorage.getItem('roadToF1V4')&&!localStorage.getItem('roadToF1V33'))$('newDialog').showModal();render();

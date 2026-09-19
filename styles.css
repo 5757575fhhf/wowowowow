@@ -59,3 +59,7 @@
 .negTerms{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px;margin:12px 0}.negTerms span{padding:8px;border:1px solid rgba(255,255,255,.1);border-radius:8px}.negTerms b{display:block;margin-top:3px}.negActions{display:flex;gap:8px;flex-wrap:wrap}
 
 .preseasonHead{display:flex;justify-content:space-between;gap:12px;align-items:start;margin-bottom:10px}.preseasonHead small,.preseasonDone small,.testReport small{display:block;opacity:.72;margin-top:4px}.preseasonActions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.testReport,.preseasonDone{display:grid;gap:5px;margin-top:8px}.preseasonHead span{white-space:nowrap}@media(max-width:650px){.preseasonHead{display:grid}.preseasonHead span{white-space:normal}.preseasonActions button{width:100%}}
+
+.damageStatus{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;margin:10px 0;padding:10px;border:1px solid rgba(255,255,255,.13);border-radius:10px}.damageStatus span{font-weight:700}.damageStatus small{opacity:.72}@media(max-width:650px){.damageStatus{grid-template-columns:1fr}}
+
+.incidentLegend{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0;font-size:.78rem;opacity:.78}.incidentLegend span{padding:4px 7px;border:1px solid rgba(255,255,255,.1);border-radius:999px}.damageStatus.critical{border-color:rgba(255,80,80,.75)}

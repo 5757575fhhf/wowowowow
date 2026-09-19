@@ -28,12 +28,12 @@ const $=id=>document.getElementById(id),clamp=(v,a,b)=>Math.max(a,Math.min(b,v))
 const fmt=n=>'$'+Math.round(n)+'k';
 function fresh(name='Alex Combes',nat='Australia',type='balanced'){
  const stats={pace:52,racecraft:51,consistency:52,fitness:50,wet:48,feedback:50};if(type==='qualifier')stats.pace+=7;if(type==='racer')stats.racecraft+=7;if(type==='rain')stats.wet+=10;if(type==='steady')stats.consistency+=8;
- return {version:6.9,name,nat,type,series:0,season:1,round:0,points:0,rep:15,cash:30,morale:72,teamTier:0,stats,dev:{aero:0,engine:0,reliability:0,pit:0},practice:3,phase:'practice',qualStage:0,grid:null,field:[],standings:{},results:[],history:[],offers:[],academy:null,academyOffers:[],rival:null,teammate:null,sponsor:null,superLicence:0,market:[],qualHistory:[],lastQual:null,lastAnalysis:null,lastClassification:null,setup:'Balanced',livery:'Crimson',teamLivery:'Crimson GP',seasonObjectives:null,objectiveProgress:{},teammateBonusPaid:0,academyStanding:70,reserveRole:null,fp1Runs:0,poachOffers:[],academyEvents:[],preseason:null,preseasonHistory:[],career:{starts:0,wins:0,podiums:0,poles:0,points:0,titles:0,dnfs:0,best:99,f1wins:0,fastestLaps:0,teammateWins:0,teammateLosses:0},race:null,weather:'Dry',forecast:'Dry throughout',weatherPlan:null,sprint:false};
+ return {version:7.2,name,nat,type,series:0,season:1,round:0,points:0,rep:15,cash:30,morale:72,teamTier:0,stats,dev:{aero:0,engine:0,reliability:0,pit:0},practice:3,phase:'practice',qualStage:0,grid:null,field:[],standings:{},results:[],history:[],offers:[],academy:null,academyOffers:[],rival:null,teammate:null,sponsor:null,superLicence:0,market:[],qualHistory:[],lastQual:null,lastAnalysis:null,lastClassification:null,setup:'Balanced',livery:'Crimson',teamLivery:'Crimson GP',seasonObjectives:null,objectiveProgress:{},teammateBonusPaid:0,academyStanding:70,reserveRole:null,fp1Runs:0,poachOffers:[],academyEvents:[],preseason:null,preseasonHistory:[],career:{starts:0,wins:0,podiums:0,poles:0,points:0,titles:0,dnfs:0,best:99,f1wins:0,fastestLaps:0,teammateWins:0,teammateLosses:0},race:null,weather:'Dry',forecast:'Dry throughout',weatherPlan:null,sprint:false};
 }
 let S=load()||fresh();
 function cur(){return SERIES[S.series]}function team(){return cur().teams[S.teamTier]}function car(){return clamp(team()[1]+S.dev.aero+S.dev.engine,1,99)}function rel(){return clamp(team()[2]+S.dev.reliability,45,99)}
-function save(show=false){localStorage.setItem('roadToF1V69',JSON.stringify(S));if(show)notice('Career saved.')} 
-function load(){try{let x=JSON.parse(localStorage.getItem('roadToF1V69'));if(x&&x.version===6.9)return x;let old=JSON.parse(localStorage.getItem('roadToF1V68'))||JSON.parse(localStorage.getItem('roadToF1V67'))||JSON.parse(localStorage.getItem('roadToF1V66'))||JSON.parse(localStorage.getItem('roadToF1V65'))||JSON.parse(localStorage.getItem('roadToF1V64'))||JSON.parse(localStorage.getItem('roadToF1V63'))||JSON.parse(localStorage.getItem('roadToF1V62'))||JSON.parse(localStorage.getItem('roadToF1V61'))||JSON.parse(localStorage.getItem('roadToF1V60'))||JSON.parse(localStorage.getItem('roadToF1V55'))||JSON.parse(localStorage.getItem('roadToF1V54'))||JSON.parse(localStorage.getItem('roadToF1V53'))||JSON.parse(localStorage.getItem('roadToF1V52'))||JSON.parse(localStorage.getItem('roadToF1V51'))||JSON.parse(localStorage.getItem('roadToF1V50'))||JSON.parse(localStorage.getItem('roadToF1V46'))||JSON.parse(localStorage.getItem('roadToF1V45'))||JSON.parse(localStorage.getItem('roadToF1V44'))||JSON.parse(localStorage.getItem('roadToF1V4'))||JSON.parse(localStorage.getItem('roadToF1V33'));if(old){let n={...fresh(old.name,old.nat,old.type),...old,version:6.9};n.superLicence=old.superLicence||Math.min(39,old.series*8);n.market=old.market||[];n.qualHistory=old.qualHistory||[];n.lastQual=old.lastQual||null;n.lastAnalysis=old.lastAnalysis||null;n.lastClassification=old.lastClassification||null;n.setup=old.setup||'Balanced';n.livery=old.livery||'Crimson';n.seasonObjectives=old.seasonObjectives||null;n.objectiveProgress=old.objectiveProgress||{};n.teammateBonusPaid=old.teammateBonusPaid||0;n.academyOffers=old.academyOffers||[];n.career={...fresh().career,...old.career};n.race=null;n.weatherPlan=null;
+function save(show=false){localStorage.setItem('roadToF1V72',JSON.stringify(S));if(show)notice('Career saved.')} 
+function load(){try{let x=JSON.parse(localStorage.getItem('roadToF1V72'));if(x&&x.version===7.2)return x;let old=JSON.parse(localStorage.getItem('roadToF1V71'))||JSON.parse(localStorage.getItem('roadToF1V70'))||JSON.parse(localStorage.getItem('roadToF1V69'))||JSON.parse(localStorage.getItem('roadToF1V68'))||JSON.parse(localStorage.getItem('roadToF1V67'))||JSON.parse(localStorage.getItem('roadToF1V66'))||JSON.parse(localStorage.getItem('roadToF1V65'))||JSON.parse(localStorage.getItem('roadToF1V64'))||JSON.parse(localStorage.getItem('roadToF1V63'))||JSON.parse(localStorage.getItem('roadToF1V62'))||JSON.parse(localStorage.getItem('roadToF1V61'))||JSON.parse(localStorage.getItem('roadToF1V60'))||JSON.parse(localStorage.getItem('roadToF1V55'))||JSON.parse(localStorage.getItem('roadToF1V54'))||JSON.parse(localStorage.getItem('roadToF1V53'))||JSON.parse(localStorage.getItem('roadToF1V52'))||JSON.parse(localStorage.getItem('roadToF1V51'))||JSON.parse(localStorage.getItem('roadToF1V50'))||JSON.parse(localStorage.getItem('roadToF1V46'))||JSON.parse(localStorage.getItem('roadToF1V45'))||JSON.parse(localStorage.getItem('roadToF1V44'))||JSON.parse(localStorage.getItem('roadToF1V4'))||JSON.parse(localStorage.getItem('roadToF1V33'));if(old){let n={...fresh(old.name,old.nat,old.type),...old,version:7.2};n.superLicence=old.superLicence||Math.min(39,old.series*8);n.market=old.market||[];n.qualHistory=old.qualHistory||[];n.lastQual=old.lastQual||null;n.lastAnalysis=old.lastAnalysis||null;n.lastClassification=old.lastClassification||null;n.setup=old.setup||'Balanced';n.livery=old.livery||'Crimson';n.seasonObjectives=old.seasonObjectives||null;n.objectiveProgress=old.objectiveProgress||{};n.teammateBonusPaid=old.teammateBonusPaid||0;n.academyOffers=old.academyOffers||[];n.career={...fresh().career,...old.career};n.race=null;n.weatherPlan=null;
     // Repair stale/broken weekend states from V5.4 and earlier.
     // If there is no active race, always reopen the weekend in practice.
     n.phase='practice';n.practice=3;n.grid=null;n.qualStage=0;
@@ -538,22 +538,135 @@ function ersStatus(r){ensureResources(r);if(r.ers>60)return'Charged';if(r.ers>30
 
 function selectedPitTyre(){let el=$('pitTyre');return el?.value||'Medium'}
 function requestManualPit(){
- let r=S.race;if(!r)return notice('Start the race before calling a pit stop.');
- if(r.pending)return notice('Answer the current team-radio decision first.');
- let p=r.racers.find(x=>x.player);if(!p||p.dnf)return;
+ let r=S.race;
+ if(!r){notice('Start the race before calling a pit stop.');return}
+ let p=r.racers?.find(x=>x.player);
+ if(!p||p.dnf){notice('Pit stop unavailable.');return}
+ if(r.lap>=r.laps){notice('The race has finished.');return}
  let tyre=selectedPitTyre();
- if(p.pitRequested){p.pitRequested=false;notice('Pit call cancelled. You will stay out.');}
- else{p.pitRequested=true;p.requestedTyre=tyre;feed(`📻 BOX BOX — pit requested for ${tyre}s at the end of the next lap.`);notice(`Pit stop queued: ${tyre}s. Advance one lap to pit.`)}
+ if(p.pitRequested){
+   p.pitRequested=false;p.requestedTyre=null;
+   feed('📻 Pit call cancelled — stay out.');
+   notice('Pit call cancelled. You will stay out.');
+ }else{
+   p.pitRequested=true;p.requestedTyre=tyre;
+   feed(`📻 BOX BOX — ${tyre}s requested for the end of lap ${r.lap+1}.`);
+   notice(`BOX BOX: ${tyre}s queued for the end of the next lap.`);
+ }
  renderRace();save()
 }
 function executeManualPit(r,p){
- if(!p.pitRequested)return 0;
- let tyre=p.requestedTyre||selectedPitTyre(),loss=pitLossEstimate()*(r.sc?0.58:1);
- p.tyre=tyre;p.wear=0;p.pits++;p.lastPit=r.lap;p.compoundHistory.push(tyre);
+ if(!p.pitRequested||p.dnf)return 0;
+ if(p.lastManualPitLap===r.lap)return 0;
+ let tyre=p.requestedTyre||'Medium',loss=pitLossEstimate()*(r.sc?0.58:1);
+ loss+=repairPitDamage(r,p);
+ p.lastManualPitLap=r.lap;p.tyre=tyre;p.wear=0;p.pits++;p.lastPit=r.lap;p.compoundHistory.push(tyre);
  p.totalTime+=loss;p.pitRequested=false;p.requestedTyre=null;
+ r.pitHistory=r.pitHistory||[];
  r.pitHistory.push({lap:r.lap,driver:p.name,tyre,loss,manual:true});
- feed(`🔧 Lap ${r.lap}: ${p.name} pits for ${tyre}s • ${loss.toFixed(1)}s pit loss${r.sc?' under Safety Car':''}.`);
+ feed(`🔧 Lap ${r.lap}: ${p.name} BOX • ${tyre}s • ${loss.toFixed(1)}s${r.sc?' under Safety Car':''}.`);
+ notice(`Pit stop complete: ${tyre}s fitted.`);
  return loss
+}
+
+
+function driverTyreStyle(d){
+ let racecraft=d.player?S.stats.racecraft:(d.skill||70),cons=d.player?S.stats.consistency:(d.consistency||d.skill||68);
+ let base=1.08-(racecraft*.0025+cons*.0018);
+ let style=d.player?(S.paceMode||'Balanced'):(d.mode||'Balanced');
+ let mod=style==='Attack'?1.28:style==='Push'?1.14:style==='Conserve'?.78:1;
+ return clamp(base*mod,.68,1.32)
+}
+function ensureDamage(d){
+ if(!d.damage)d.damage={frontWing:0,sidepod:0,floor:0,suspension:0};
+ return d.damage
+}
+function damagePacePenalty(d){
+ let x=ensureDamage(d);
+ return x.frontWing*.055+x.sidepod*.045+x.floor*.04+x.suspension*.075;
+}
+function damageLabel(d){
+ let x=ensureDamage(d),parts=[['FW',x.frontWing],['SP',x.sidepod],['FL',x.floor],['SU',x.suspension]].filter(a=>a[1]>0);
+ if(!parts.length)return 'OK';
+ return parts.map(([n,v])=>`${n} ${Math.round(v)}%`).join(' · ')
+}
+function inflictDamage(d,part,amount,r){
+ let x=ensureDamage(d);x[part]=clamp(x[part]+amount,0,100);
+ let names={frontWing:'front wing',sidepod:'sidepod',floor:'floor',suspension:'suspension'};
+ if(d.player||Math.random()<.22)feed(`💥 Lap ${r.lap}: ${d.name} has ${names[part]} damage (${Math.round(x[part])}%).`);
+ if(x.suspension>=82||x.sidepod>=94){d.dnf=true;d.status='DNF — accident damage';feed(`⛔ ${d.name} retires with accident damage.`)}
+}
+function raceDamageEvents(r,d){
+ if(d.dnf)return;
+ let aggression=d.player?(S.paceMode==='Attack'?.010:S.paceMode==='Push'?.005:.0025):.0035;
+ let wearRisk=(d.wear||0)>82?.005:0;
+ let wetRisk=(r.wetness||0)>45?.0035:0;
+ if(Math.random()<aggression+wearRisk+wetRisk){
+   let roll=Math.random(),part=roll<.46?'frontWing':roll<.72?'sidepod':roll<.91?'floor':'suspension';
+   inflictDamage(d,part,ri(8,part==='suspension'?28:38),r)
+ }
+}
+function repairPitDamage(r,p){
+ let x=ensureDamage(p),extra=0,notes=[];
+ if(x.frontWing>=8){extra+=5+rnd(1,3);notes.push('front wing');x.frontWing=0}
+ if(x.sidepod>0){let fix=Math.min(x.sidepod,ri(5,14));x.sidepod-=fix;if(fix>0){extra+=rnd(1,3);notes.push('sidepod check')}}
+ if(notes.length)feed(`🛠️ ${p.name}: ${notes.join(' + ')} during pit stop (+${extra.toFixed(1)}s).`);
+ return extra
+}
+
+
+function applyRacePenalty(d,seconds,reason,r){
+ d.penalties=(d.penalties||0)+seconds;d.totalTime+=seconds;
+ feed(`⚖️ ${d.name}: +${seconds}s penalty — ${reason}.`);
+}
+function contextualRaceEvents(r){
+ let active=r.racers.filter(x=>!x.dnf).sort((a,b)=>a.totalTime-b.totalTime);
+ for(let i=1;i<active.length;i++){
+   let a=active[i-1],b=active[i],gap=Math.abs((b.totalTime||0)-(a.totalTime||0));
+   if(gap>1.15)continue;
+   let aggression=x=>x.player?(S.paceMode==='Attack'?1.55:S.paceMode==='Push'?1.25:S.paceMode==='Conserve'?.65:1):clamp((x.skill||70)/72,.75,1.3);
+   if(Math.random()<.0048*aggression(a)*aggression(b)){
+     let severity=Math.random();
+     if(severity<.48){
+       let victim=Math.random()<.5?a:b;
+       victim.totalTime+=rnd(3,8);victim.wear=clamp(victim.wear+rnd(2,7),0,100);
+       feed(`↪️ Lap ${r.lap}: ${victim.name} spins after close racing and loses time.`);
+     }else{
+       let culprit=Math.random()<.5?a:b,other=culprit===a?b:a;
+       inflictDamage(culprit,'frontWing',ri(8,28),r);
+       inflictDamage(other,Math.random()<.7?'sidepod':'floor',ri(5,22),r);
+       feed(`💥 Lap ${r.lap}: contact between ${culprit.name} and ${other.name}.`);
+       if(Math.random()<.35)applyRacePenalty(culprit,5,'causing a collision',r);
+       if(severity>.9){r.sc=Math.max(r.sc||0,ri(2,4));feed('🚨 SAFETY CAR deployed for debris and recovery.')}
+       else if(severity>.72){r.vsc=Math.max(r.vsc||0,ri(1,2));feed('🟡 VIRTUAL SAFETY CAR — debris on circuit.')}
+     }
+   }
+ }
+ // Lock-ups and punctures become more likely with aggressive driving / extreme tyre wear.
+ active.forEach(d=>{
+   let ag=d.player?(S.paceMode==='Attack'?1.8:S.paceMode==='Push'?1.3:.8):1;
+   if(Math.random()<.0025*ag){d.totalTime+=rnd(.8,2.6);d.wear=clamp(d.wear+rnd(3,8),0,100);feed(`🔒 Lap ${r.lap}: ${d.name} locks up and flat-spots the tyres.`)}
+   if((d.wear||0)>88&&Math.random()<.012+((d.wear-88)*.003)){
+     d.wear=100;d.totalTime+=rnd(5,12);d.puncture=true;feed(`🛞 Lap ${r.lap}: ${d.name} has a puncture!`);
+     if(Math.random()<.2)inflictDamage(d,'floor',ri(5,18),r);
+   }
+ });
+}
+function aiDamageStrategy(r){
+ r.racers.filter(d=>!d.player&&!d.dnf).forEach(d=>{
+   let x=ensureDamage(d),pen=damagePacePenalty(d),needs=x.frontWing>=18||d.puncture||pen>=1.25;
+   if(needs&&!d.pitRequested){
+     d.pitRequested=true;d.requestedTyre=bestTyreForWetness(r.wetness||0);
+   }
+   if(d.pitRequested){
+     let loss=pitLossEstimate()*(r.sc?0.58:r.vsc?.72:1);
+     loss+=repairPitDamage(r,d);
+     d.totalTime+=loss;d.tyre=d.requestedTyre||'Medium';d.wear=0;d.pits++;d.lastPit=r.lap;d.compoundHistory.push(d.tyre);
+     d.pitRequested=false;d.requestedTyre=null;d.puncture=false;
+     r.pitHistory.push({lap:r.lap,driver:d.name,tyre:d.tyre,loss,damage:true});
+     feed(`🔧 ${d.name} pits for repairs and ${d.tyre}s.`);
+   }
+ })
 }
 
 function simLap(){
@@ -566,6 +679,7 @@ function simLap(){
  let paceCfg={Conserve:{bonus:-.45,wear:.70,mistake:.68,fuel:.90,ersUse:-5},Balanced:{bonus:0,wear:1,mistake:1,fuel:1,ersUse:1},Push:{bonus:.48,wear:1.32,mistake:1.22,fuel:1.12,ersUse:7},Attack:{bonus:.78,wear:1.58,mistake:1.45,fuel:1.24,ersUse:12}}[paceName]||{bonus:0,wear:1,mistake:1,fuel:1,ersUse:1};
  let setupBonus=setupEffect(S.setup||'Balanced');
  r.racers.forEach(d=>{
+ d._wearBefore=d.wear||0;
    if(d.dnf)return;
    if(!Number.isFinite(d.totalTime))d.totalTime=(d.pos-1)*.18;
    if(!Number.isFinite(d.fuel))d.fuel=100;if(!Number.isFinite(d.ers))d.ers=100;
@@ -620,7 +734,21 @@ function simLap(){
    let mech=(100-(isP?rel():Math.min(96,d.car+8)))*.00035;if(Math.random()<mech){d.dnf=true;d.lastLap=null;feed('🔧 '+d.name+' retired with a mechanical failure.')}
    if(!d.dnf){d.lastLap=Math.max(1,lapTime);d.totalTime+=d.lastLap;updateFastest(d)}
  });
+ 
+ r.racers.forEach(d=>{
+   if(d.dnf)return;
+   ensureDamage(d);
+   let tyreStyle=driverTyreStyle(d);
+   // Driver style modifies the wear accumulated this lap, making smooth drivers kinder to tyres.
+   if(Number.isFinite(d.wear)){let delta=Math.max(0,d.wear-(d._wearBefore??d.wear));d.wear=clamp((d._wearBefore??d.wear)+delta*tyreStyle,0,100)}
+   d.totalTime+=damagePacePenalty(d);
+   raceDamageEvents(r,d);
+   delete d._wearBefore;
+ });
+
+ contextualRaceEvents(r);aiDamageStrategy(r);
  let playerForPit=r.racers.find(x=>x.player);if(playerForPit&&!playerForPit.dnf)executeManualPit(r,playerForPit);
+ if(r.vsc){r.racers.filter(x=>!x.dnf).forEach(x=>x.totalTime+=rnd(3.2,4.8));r.vsc--;if(r.vsc<=0){r.vsc=0;feed('🟢 VSC ending — GREEN FLAG.')}}
  normalizeTiming(r);aiPitLogic();
  let alive=r.racers.filter(x=>!x.dnf).sort((a,b)=>a.totalTime-b.totalTime);if(r.sc&&alive.length){let lead=alive[0].totalTime;alive.forEach((d,i)=>d.totalTime=lead+i*rnd(.18,.42))}
  let dead=r.racers.filter(x=>x.dnf).sort((a,b)=>(a.pos||99)-(b.pos||99));r.racers=[...alive,...dead];normalizeTiming(r);
@@ -716,7 +844,11 @@ function renderCircuitTracker(){
  <small>Your marker uses your selected team livery • <strong>R</strong> marks your rival</small>`
 }
 function renderRace(){
- let r=S.race;renderClassification();if(r)renderCircuitTracker();
+ let r=S.race;
+ let dmg=$('damageStatus');
+ if(r?.racers){let pp=r.racers.find(x=>x.player);if(pp?.puncture&&dmg)dmg.classList.add('critical');else if(dmg)dmg.classList.remove('critical')}
+ if(dmg){let dp=r?.racers?.find(x=>x.player);dmg.innerHTML=dp?`<strong>Car damage</strong><span>${damageLabel(dp)}</span><small>Pace loss: +${damagePacePenalty(dp).toFixed(2)}s/lap</small>`:'<strong>Car damage</strong><span>—</span>'}
+renderClassification();if(r)renderCircuitTracker();
  if(!r){$('raceStatus').textContent='Race not started';$('lapBadge').textContent='Lap —';$('timing').innerHTML='Start the race to see live timing.';$('lapBtn').disabled=$('fiveBtn').disabled=$('autoBtn').disabled=true;$('radioBox').classList.add('hidden');$('raceIntel').innerHTML='No active race. The latest final classification is shown below.';return}
  normalizeTiming(r);$('raceStatus').textContent=(r.sc?'Safety Car • ':'')+r.weather+' • Track '+Math.round(r.wetness||0)+'% wet • Leader '+raceClockFmt(r.leaderTime);$('lapBadge').textContent=`Lap ${r.lap}/${r.laps}`;$('timing').innerHTML=pitTable();$('lapBtn').disabled=$('fiveBtn').disabled=$('autoBtn').disabled=!!r.pending;
  if(r.pending){$('radioBox').classList.remove('hidden');$('radioBox').innerHTML=`<strong>📻 ${r.pending.title}</strong><div>${r.pending.text}</div><div class="choices">${r.pending.choices.map(c=>`<button data-radio="${c[1]}">${c[0]}</button>`).join('')}</div>`;document.querySelectorAll('[data-radio]').forEach(b=>b.onclick=()=>chooseRadio(b.dataset.radio))}else $('radioBox').classList.add('hidden');
@@ -745,12 +877,13 @@ function bind(){
  if($('trainingGrid'))$('trainingGrid').addEventListener('click',e=>{let b=e.target.closest('[data-train]');if(b&&!b.disabled)train(b.dataset.train)});
  if($('qualBtn'))$('qualBtn').onclick=qualifyingAction;
  if($('forceRaceBtn'))$('forceRaceBtn').onclick=forceRaceRecovery;
- if($('pitBtn'))$('pitBtn').onclick=requestManualPit;
  if($('pitTyre'))$('pitTyre').onchange=()=>{let p=S.race?.racers?.find(x=>x.player);if(p?.pitRequested)p.requestedTyre=selectedPitTyre();renderRace();save()};
  if($('resetWeekendBtn'))$('resetWeekendBtn').onclick=()=>{S.race=null;S.grid=null;S.qualStage=0;S.practice=3;S.phase='practice';notice('Weekend reset. Practice and qualifying are available again.');render();save();};
 if($('fuelLoad'))$('fuelLoad').oninput=renderFuelLoad;if($('liverySelect'))$('liverySelect').onchange=e=>setLivery(e.target.value);document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));document.querySelectorAll('.tab-panel').forEach(x=>x.classList.remove('active'));b.classList.add('active');$(b.dataset.tab).classList.add('active')});$('qualBtn').onclick=qualifyingAction;$('raceBtn').onclick=startRace;$('lapBtn').onclick=()=>advance(1);$('fiveBtn').onclick=()=>advance(5);$('autoBtn').onclick=()=>{for(let i=0;i<10&&S.race&&!S.race.pending;i++)simLap();renderRace();render();save()};$('saveBtn').onclick=()=>save(true);$('newBtn').onclick=()=>{if(confirm('Start a new career and replace your save?'))$('newDialog').showModal()};['startTyre','risk','ers','fuel','paceMode','carSetup'].forEach(id=>$(id).onchange=()=>{S.setup=$('carSetup').value||S.setup;renderStrategyAdvice();$('setupAdvice').textContent=setupText();if(S.race){feed('📻 Controls updated • pace '+$('paceMode').value+' • fuel '+$('fuel').value+' • ERS '+$('ers').value+'.');renderRace();save()}});$('newForm').onsubmit=e=>{e.preventDefault();S=fresh($('driverName').value.trim()||'Alex Combes',$('nationality').value,$('archetype').value);makeField();weather();hist('🏁 Career started in Karting');$('newDialog').close();notice('Career started. Begin practice.');render();save()}}
 
  document.addEventListener('click',e=>{
+  let pb=e.target.closest('#pitBtn');if(pb){e.preventDefault();requestManualPit();return}
+
   let pr=e.target.closest('#preseasonRunBtn');if(pr){e.preventDefault();runPreseasonDay();return}
   let ps=e.target.closest('#preseasonSkipBtn');if(ps){e.preventDefault();skipPreseason();return}
   let fr=e.target.closest('#forceRaceBtn');if(fr){e.preventDefault();forceRaceRecovery();return}
@@ -767,4 +900,4 @@ ensure();
 if(!['practice','qualifying','sprint','race','finished'].includes(S.phase)){S.phase='practice';S.practice=3;S.grid=null;S.race=null}
 if(S.phase==='race'&&!S.grid&&!S.race){S.phase='practice';S.practice=3}
 if(S.grid&&(S.phase==='race'||S.phase==='sprint')&&S.race&&(!Array.isArray(S.race.racers)||S.race.lap===0))S.race=null
-bind();if(!localStorage.getItem('roadToF1V69')&&!localStorage.getItem('roadToF1V64')&&!localStorage.getItem('roadToF1V53')&&!localStorage.getItem('roadToF1V52')&&!localStorage.getItem('roadToF1V51')&&!localStorage.getItem('roadToF1V50')&&!localStorage.getItem('roadToF1V46')&&!localStorage.getItem('roadToF1V44')&&!localStorage.getItem('roadToF1V4')&&!localStorage.getItem('roadToF1V33'))$('newDialog').showModal();render();
+bind();if(!localStorage.getItem('roadToF1V72')&&!localStorage.getItem('roadToF1V64')&&!localStorage.getItem('roadToF1V53')&&!localStorage.getItem('roadToF1V52')&&!localStorage.getItem('roadToF1V51')&&!localStorage.getItem('roadToF1V50')&&!localStorage.getItem('roadToF1V46')&&!localStorage.getItem('roadToF1V44')&&!localStorage.getItem('roadToF1V4')&&!localStorage.getItem('roadToF1V33'))$('newDialog').showModal();render();

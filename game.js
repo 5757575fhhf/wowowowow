@@ -28,12 +28,12 @@ const $=id=>document.getElementById(id),clamp=(v,a,b)=>Math.max(a,Math.min(b,v))
 const fmt=n=>'$'+Math.round(n)+'k';
 function fresh(name='Alex Combes',nat='Australia',type='balanced'){
  const stats={pace:52,racecraft:51,consistency:52,fitness:50,wet:48,feedback:50};if(type==='qualifier')stats.pace+=7;if(type==='racer')stats.racecraft+=7;if(type==='rain')stats.wet+=10;if(type==='steady')stats.consistency+=8;
- return {version:6.3,name,nat,type,series:0,season:1,round:0,points:0,rep:15,cash:30,morale:72,teamTier:0,stats,dev:{aero:0,engine:0,reliability:0,pit:0},practice:3,phase:'practice',qualStage:0,grid:null,field:[],standings:{},results:[],history:[],offers:[],academy:null,academyOffers:[],rival:null,teammate:null,sponsor:null,superLicence:0,market:[],qualHistory:[],lastQual:null,lastAnalysis:null,lastClassification:null,setup:'Balanced',livery:'Crimson',teamLivery:'Crimson GP',seasonObjectives:null,objectiveProgress:{},teammateBonusPaid:0,academyStanding:70,reserveRole:null,fp1Runs:0,poachOffers:[],academyEvents:[],career:{starts:0,wins:0,podiums:0,poles:0,points:0,titles:0,dnfs:0,best:99,f1wins:0,fastestLaps:0,teammateWins:0,teammateLosses:0},race:null,weather:'Dry',forecast:'Dry throughout',weatherPlan:null,sprint:false};
+ return {version:6.4,name,nat,type,series:0,season:1,round:0,points:0,rep:15,cash:30,morale:72,teamTier:0,stats,dev:{aero:0,engine:0,reliability:0,pit:0},practice:3,phase:'practice',qualStage:0,grid:null,field:[],standings:{},results:[],history:[],offers:[],academy:null,academyOffers:[],rival:null,teammate:null,sponsor:null,superLicence:0,market:[],qualHistory:[],lastQual:null,lastAnalysis:null,lastClassification:null,setup:'Balanced',livery:'Crimson',teamLivery:'Crimson GP',seasonObjectives:null,objectiveProgress:{},teammateBonusPaid:0,academyStanding:70,reserveRole:null,fp1Runs:0,poachOffers:[],academyEvents:[],career:{starts:0,wins:0,podiums:0,poles:0,points:0,titles:0,dnfs:0,best:99,f1wins:0,fastestLaps:0,teammateWins:0,teammateLosses:0},race:null,weather:'Dry',forecast:'Dry throughout',weatherPlan:null,sprint:false};
 }
 let S=load()||fresh();
 function cur(){return SERIES[S.series]}function team(){return cur().teams[S.teamTier]}function car(){return clamp(team()[1]+S.dev.aero+S.dev.engine,1,99)}function rel(){return clamp(team()[2]+S.dev.reliability,45,99)}
-function save(show=false){localStorage.setItem('roadToF1V63',JSON.stringify(S));if(show)notice('Career saved.')} 
-function load(){try{let x=JSON.parse(localStorage.getItem('roadToF1V63'));if(x&&x.version===6.3)return x;let old=JSON.parse(localStorage.getItem('roadToF1V62'))||JSON.parse(localStorage.getItem('roadToF1V61'))||JSON.parse(localStorage.getItem('roadToF1V60'))||JSON.parse(localStorage.getItem('roadToF1V55'))||JSON.parse(localStorage.getItem('roadToF1V54'))||JSON.parse(localStorage.getItem('roadToF1V53'))||JSON.parse(localStorage.getItem('roadToF1V52'))||JSON.parse(localStorage.getItem('roadToF1V51'))||JSON.parse(localStorage.getItem('roadToF1V50'))||JSON.parse(localStorage.getItem('roadToF1V46'))||JSON.parse(localStorage.getItem('roadToF1V45'))||JSON.parse(localStorage.getItem('roadToF1V44'))||JSON.parse(localStorage.getItem('roadToF1V4'))||JSON.parse(localStorage.getItem('roadToF1V33'));if(old){let n={...fresh(old.name,old.nat,old.type),...old,version:6.3};n.superLicence=old.superLicence||Math.min(39,old.series*8);n.market=old.market||[];n.qualHistory=old.qualHistory||[];n.lastQual=old.lastQual||null;n.lastAnalysis=old.lastAnalysis||null;n.lastClassification=old.lastClassification||null;n.setup=old.setup||'Balanced';n.livery=old.livery||'Crimson';n.seasonObjectives=old.seasonObjectives||null;n.objectiveProgress=old.objectiveProgress||{};n.teammateBonusPaid=old.teammateBonusPaid||0;n.academyOffers=old.academyOffers||[];n.career={...fresh().career,...old.career};n.race=null;n.weatherPlan=null;
+function save(show=false){localStorage.setItem('roadToF1V64',JSON.stringify(S));if(show)notice('Career saved.')} 
+function load(){try{let x=JSON.parse(localStorage.getItem('roadToF1V64'));if(x&&x.version===6.4)return x;let old=JSON.parse(localStorage.getItem('roadToF1V63'))||JSON.parse(localStorage.getItem('roadToF1V62'))||JSON.parse(localStorage.getItem('roadToF1V61'))||JSON.parse(localStorage.getItem('roadToF1V60'))||JSON.parse(localStorage.getItem('roadToF1V55'))||JSON.parse(localStorage.getItem('roadToF1V54'))||JSON.parse(localStorage.getItem('roadToF1V53'))||JSON.parse(localStorage.getItem('roadToF1V52'))||JSON.parse(localStorage.getItem('roadToF1V51'))||JSON.parse(localStorage.getItem('roadToF1V50'))||JSON.parse(localStorage.getItem('roadToF1V46'))||JSON.parse(localStorage.getItem('roadToF1V45'))||JSON.parse(localStorage.getItem('roadToF1V44'))||JSON.parse(localStorage.getItem('roadToF1V4'))||JSON.parse(localStorage.getItem('roadToF1V33'));if(old){let n={...fresh(old.name,old.nat,old.type),...old,version:6.4};n.superLicence=old.superLicence||Math.min(39,old.series*8);n.market=old.market||[];n.qualHistory=old.qualHistory||[];n.lastQual=old.lastQual||null;n.lastAnalysis=old.lastAnalysis||null;n.lastClassification=old.lastClassification||null;n.setup=old.setup||'Balanced';n.livery=old.livery||'Crimson';n.seasonObjectives=old.seasonObjectives||null;n.objectiveProgress=old.objectiveProgress||{};n.teammateBonusPaid=old.teammateBonusPaid||0;n.academyOffers=old.academyOffers||[];n.career={...fresh().career,...old.career};n.race=null;n.weatherPlan=null;
     // Repair stale/broken weekend states from V5.4 and earlier.
     // If there is no active race, always reopen the weekend in practice.
     n.phase='practice';n.practice=3;n.grid=null;n.qualStage=0;
@@ -532,16 +532,38 @@ function renderClassification(){
 function circuitPath(name){let seed=[...name].reduce((a,c)=>a+c.charCodeAt(0),0),pts=[],n=38;for(let i=0;i<n;i++){let a=i/n*Math.PI*2,r=1+.18*Math.sin(a*3+(seed%7))+.10*Math.sin(a*5+(seed%11));pts.push([50+39*r*Math.cos(a),50+31*r*Math.sin(a)])}return pts}
 function pathPoint(pts,t){let n=pts.length,p=t*n,i=Math.floor(p)%n,f=p-Math.floor(p),a=pts[i],b=pts[(i+1)%n];return[a[0]+(b[0]-a[0])*f,a[1]+(b[1]-a[1])*f]}
 function renderCircuitTracker(){
- let box=$('circuitTracker');if(!box)return;
- if(!S.race){box.innerHTML='<div class="muted">Start the race to see cars on circuit.</div>';return}
- let r=S.race,active=r.racers.filter(d=>!d.dnf);
- box.innerHTML=`<div class="miniTrack"><div class="trackLoop"></div>${active.map((d,i)=>{
-   let c=miniMapColour(d),progress=clamp(((r.lap-1)+(1-(d.gap||0)/Math.max(1,r.baseLap)))/r.laps,0,1);
-   let ang=(progress*360+i*.7-90)*Math.PI/180,rx=42,ry=34,x=50+Math.cos(ang)*rx,y=50+Math.sin(ang)*ry;
-   let cls=d.player?'miniCar player':d.id===S.rival?'miniCar rival':'miniCar';
-   let tag=d.player?'YOU':d.id===S.rival?'R':'';
-   return `<span class="${cls}" title="${d.name}${d.id===S.rival?' • Rival':''}" style="left:${x}%;top:${y}%;--mini-a:${c.a};--mini-b:${c.b}"><i></i>${tag?`<b>${tag}</b>`:''}</span>`
- }).join('')}<div class="miniLegend"><span class="legendLivery"><i></i>You</span><span class="legendRival"><i></i>Rival</span></div></div>`
+ let el=$('circuitTracker');if(!el||!S.race)return;
+ let r=S.race,pts=circuitPath(cur().tracks[S.round]);
+ let path=pts.map((p,i)=>(i?'L':'M')+p[0].toFixed(1)+','+p[1].toFixed(1)).join(' ')+' Z';
+ let markers=r.racers.filter(x=>!x.dnf).map(d=>{
+   let lapFrac=clamp(1-(d.gap||0)/Math.max(18,r.baseLap),0,1),p=pathPoint(pts,lapFrac);
+   let c=miniMapColour(d),isRival=d.id===S.rival;
+   let radius=d.player?3.2:isRival?2.9:1.55;
+   let stroke=d.player?'white':isRival?'#ff2d55':'none';
+   let sw=d.player||isRival?.9:0;
+   let label=d.player?'YOU':isRival?'R':d.pos;
+   return `<g class="${d.player?'map-player':isRival?'map-rival':''}">
+     <circle cx="${p[0]}" cy="${p[1]}" r="${radius}" fill="${c.a}" stroke="${stroke}" stroke-width="${sw}"/>
+     <circle cx="${p[0]}" cy="${p[1]}" r="${Math.max(1,radius*.48)}" fill="${c.b}" opacity=".95"/>
+     <text x="${p[0]+3.2}" y="${p[1]-2}" font-size="${d.player||isRival?3.2:2.2}" font-weight="${d.player||isRival?'700':'400'}">${label}</text>
+   </g>`
+ }).join('');
+ el.innerHTML=`<div class="trackerHead"><strong>${cur().tracks[S.round]}</strong><span>Lap ${r.lap}/${r.laps}</span></div>
+ <svg viewBox="0 0 100 100"><path d="${path}" fill="none" stroke="currentColor" stroke-opacity=".25" stroke-width="4.5"/><path d="${path}" fill="none" stroke="currentColor" stroke-width="1.2"/>${markers}</svg>
+ <small>Your marker uses your selected team livery • <strong>R</strong> marks your rival</small>`
+}
+function renderRace(){
+ let r=S.race;renderClassification();if(r)renderCircuitTracker();
+ if(!r){$('raceStatus').textContent='Race not started';$('lapBadge').textContent='Lap —';$('timing').innerHTML='Start the race to see live timing.';$('lapBtn').disabled=$('fiveBtn').disabled=$('autoBtn').disabled=true;$('radioBox').classList.add('hidden');$('raceIntel').innerHTML='No active race. The latest final classification is shown below.';return}
+ normalizeTiming(r);$('raceStatus').textContent=(r.sc?'Safety Car • ':'')+r.weather+' • Track '+Math.round(r.wetness||0)+'% wet • Leader '+raceClockFmt(r.leaderTime);$('lapBadge').textContent=`Lap ${r.lap}/${r.laps}`;$('timing').innerHTML=pitTable();$('lapBtn').disabled=$('fiveBtn').disabled=$('autoBtn').disabled=!!r.pending;
+ if(r.pending){$('radioBox').classList.remove('hidden');$('radioBox').innerHTML=`<strong>📻 ${r.pending.title}</strong><div>${r.pending.text}</div><div class="choices">${r.pending.choices.map(c=>`<button data-radio="${c[1]}">${c[0]}</button>`).join('')}</div>`;document.querySelectorAll('[data-radio]').forEach(b=>b.onclick=()=>chooseRadio(b.dataset.radio))}else $('radioBox').classList.add('hidden');
+ let p=r.racers.find(x=>x.player),life=TYRES[p.tyre]?.life||28,mode=$('paceMode').value,modeMult={Conserve:.70,Balanced:1,Push:1.32,Attack:1.58}[mode]||1,est=Math.max(1,Math.round((100-p.wear)/((100/life)*modeMult))),cross=bestTyreForWetness(r.wetness),nextRain=r.weatherPlan?.rainStart===null?null:Math.round(r.weatherPlan.rainStart*r.laps),pitStart=Math.min(r.laps-1,r.lap+Math.max(1,est-3)),pitEnd=Math.min(r.laps-1,r.lap+Math.max(2,est));
+ let recommendation=cross&&p.tyre!==cross?`Box for ${cross} now`:(!cross&&!TYRES[p.tyre]?.dry?'Slick crossover approaching / box soon':(nextRain&&nextRain>r.lap&&nextRain-r.lap<6?'Consider extending to the rain window':`Dry pit window L${pitStart}–L${pitEnd}`));
+ let lapsLeft=Math.max(0,r.laps-r.lap),baseBurn=100/r.laps,fuelModeNow=$('fuel').value,
+ fuelMult=fuelModeNow==='Push'?1.09:fuelModeNow==='Conserve'?.92:1,
+ projectedBurn=baseBurn*fuelMult,fuelNeed=lapsLeft*projectedBurn,fuelMargin=p.fuel-fuelNeed,
+ makeFinish=fuelMargin>-2,projectedFuelLaps=projectedBurn>0?p.fuel/projectedBurn:99;
+ $('raceIntel').innerHTML=`<div class="resourceGrid"><div><strong>Fuel remaining</strong><span>${p.fuel.toFixed(1)}%</span><div class="resourceMeter"><i style="width:${clamp(p.fuel,0,100)}%"></i></div><small>${makeFinish?'Projected to finish':'SAVE FUEL'} • ~${projectedFuelLaps.toFixed(1)} laps of fuel • finish margin ${fuelMargin>=0?'+':''}${fuelMargin.toFixed(1)}%</small></div><div><strong>ERS</strong><span>${Math.round(p.ers)}%</span><div class="resourceMeter"><i style="width:${clamp(p.ers,0,100)}%"></i></div><small>${p.ers<12?'Harvest required':p.ers>60?'Attack available':'Manage deployment'}</small></div></div><strong>Driving mode:</strong> ${mode} • ${$('fuel').value} fuel • ${$('ers').value} ERS<br><strong>Setup:</strong> ${S.setup||'Balanced'} • ${setupText()}<br><strong>Track wetness:</strong> ${Math.round(r.wetness||0)}% • ${r.weatherPlan?.forecast||S.forecast}<br><strong>Fastest:</strong> ${r.fastest?`${r.fastest.name} ${lapTimeFmt(r.fastest.time)} (L${r.fastest.lap})`:'—'}<br><strong>Your tyre estimate:</strong> ~${est} laps remaining<br><strong>Strategy call:</strong> ${recommendation}<br><strong>Pit loss now:</strong> ~${(r.sc?pitLossEstimate()*.58:pitLossEstimate()).toFixed(1)}s${r.sc?' (Safety Car)':''}<br><strong>Pit history:</strong> ${r.pitHistory.length?r.pitHistory.slice(-5).map(x=>`${x.driver} L${x.lap} ${x.from}→${x.to}`).join(' • '):'No stops yet'}`
 }
 function feed(t){let box=$('feed'),d=document.createElement('div');d.className='feeditem';d.textContent=t;box.prepend(d);while(box.children.length>30)box.removeChild(box.lastChild)}
 function standingRows(){let rows=[{player:true,name:S.name,points:S.standings.player||S.points},...S.field.map(d=>({id:d.id,name:d.name,points:S.standings[d.id]||0}))];return rows.sort((a,b)=>b.points-a.points)}
@@ -571,4 +593,4 @@ if($('fuelLoad'))$('fuelLoad').oninput=renderFuelLoad;if($('liverySelect'))$('li
 ensure();
 if(!['practice','qualifying','sprint','race','finished'].includes(S.phase)){S.phase='practice';S.practice=3;S.grid=null;S.race=null}
 if(S.phase==='race'&&!S.grid&&!S.race){S.phase='practice';S.practice=3}
-bind();if(!localStorage.getItem('roadToF1V63')&&!localStorage.getItem('roadToF1V53')&&!localStorage.getItem('roadToF1V52')&&!localStorage.getItem('roadToF1V51')&&!localStorage.getItem('roadToF1V50')&&!localStorage.getItem('roadToF1V46')&&!localStorage.getItem('roadToF1V44')&&!localStorage.getItem('roadToF1V4')&&!localStorage.getItem('roadToF1V33'))$('newDialog').showModal();render();
+bind();if(!localStorage.getItem('roadToF1V64')&&!localStorage.getItem('roadToF1V53')&&!localStorage.getItem('roadToF1V52')&&!localStorage.getItem('roadToF1V51')&&!localStorage.getItem('roadToF1V50')&&!localStorage.getItem('roadToF1V46')&&!localStorage.getItem('roadToF1V44')&&!localStorage.getItem('roadToF1V4')&&!localStorage.getItem('roadToF1V33'))$('newDialog').showModal();render();
